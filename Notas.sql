@@ -30,6 +30,72 @@ ALTER TABLE cbc.chats
 /
 ALTER TABLE sucursal_entidad ADD link_mapa VARCHAR2(200);
 /
+borrar fk entidad a sucursal.
+/
+/*update*/
+ALTER TABLE cbc.bot_flows
+  ADD CONSTRAINT bot_flows_sucursal_fk FOREIGN KEY (
+    suc_id_sucursal
+  ) REFERENCES cbc.sucursal_entidad (
+    id_suc_entidad
+  )
+/
+/*update*/
+ALTER TABLE cbc.cab_cobro
+  ADD CONSTRAINT cab_cobro_sucursal_fk FOREIGN KEY (
+    suc_id_sucursal
+  ) REFERENCES cbc.sucursal_entidad (
+    id_suc_entidad
+  )
+/
+/*update*/
+ALTER TABLE cbc.cab_factura_venta
+  ADD CONSTRAINT cab_factura_venta_sucursal_fk FOREIGN KEY (
+    suc_id_sucursal
+  ) REFERENCES cbc.sucursal_entidad (
+    id_suc_entidad
+  )
+/
+/*update*/
+ALTER TABLE cbc.cab_pago
+  ADD CONSTRAINT cab_pago_sucursal_fk FOREIGN KEY (
+    suc_id_sucursal
+  ) REFERENCES cbc.sucursal_entidad (
+    id_suc_entidad
+  )
+/
+/*update*/
+ALTER TABLE cbc.deposito
+  ADD CONSTRAINT deposito_sucursal_fk FOREIGN KEY (
+    suc_id_sucursal
+  ) REFERENCES cbc.sucursal_entidad (
+    id_suc_entidad
+  )
+/
+/*update*/
+ALTER TABLE cbc.devices
+  ADD CONSTRAINT device_sucursal_fk FOREIGN KEY (
+    suc_id_sucursal
+  ) REFERENCES cbc.sucursal_entidad (
+    id_suc_entidad
+  )
+/
+/*update*/
+ALTER TABLE cbc.rendicion_caja
+  ADD CONSTRAINT rendicion_caja_sucursal_fk FOREIGN KEY (
+    suc_id_sucursal
+  ) REFERENCES cbc.sucursal_entidad (
+    id_suc_entidad
+  )
+/
+/*update*/
+LV_SUCURSAL
+/
+Habilitar API para enviar por id_reserva el resultado obtenido por el BOT.
+Habilitar API para marcar como enviado el mensaje para la reserva.( bandera para no volver a enviar a la API)
+/
+
+entidad
 /
 SELECT *
 FROM sucursal
@@ -39,3 +105,10 @@ FROM parametros
 /
 SELECT *
 FROM sucursal_entidad
+/
+DELETE devices
+/
+DELETE chats
+/
+pkg_gestion_bot
+pkg_gestion_bot.p_caducar
