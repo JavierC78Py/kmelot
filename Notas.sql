@@ -10,6 +10,7 @@ Pag 35
 Pag 38
 Pag 39
 Pag 105
+Pag 103
 LV_SINO_VINARIO
 /
 ALTER TABLE seccion ADD cola_bot NUMBER(1) DEFAULT 0;
@@ -26,5 +27,18 @@ ALTER TABLE cbc.chats
     sec_id_seccion
   ) REFERENCES cbc.seccion (
     id_seccion
+  )
+/
+crear aviso_reservas(eliminar) >> sm_reservas
+/
+PKG_WAPI
+/
+ALTER TABLE bot_flows ADD suc_id_sucursal NUMBER(10);
+/
+ALTER TABLE cbc.bot_flows
+  ADD CONSTRAINT bot_flows_sucursal_fk FOREIGN KEY (
+    suc_id_sucursal
+  ) REFERENCES cbc.sucursal (
+    id_sucursal
   )
 /
