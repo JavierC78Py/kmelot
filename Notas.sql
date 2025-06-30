@@ -28,3 +28,14 @@ ALTER TABLE cbc.chats
     id_seccion
   )
 /
+ALTER TABLE sucursal_entidad ADD link_mapa VARCHAR2(200);
+/
+/
+SELECT *
+FROM sucursal
+/
+SELECT *
+FROM parametros
+/
+SELECT *
+FROM sucursal_entidad
