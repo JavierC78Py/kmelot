@@ -1,3 +1,5 @@
+pm2 start "npm run start" --name "WhatsApp-ClinicaSM"
+/
 sudo bash -c 'echo "[mysqld]
 skip-grant-tables
 skip-networking" > /etc/my.cnf.d/skip-grant-tables.cnf'
@@ -31,11 +33,31 @@ mysql -u baileys_user02 -p
 sudo vi  /etc/my.cnf.d/skip-grant-tables.cnf
 
 sudo systemctl stop  mysqld
-sudo firewall-cmd --add-port=4302/tcp --permanent
+
+/*No se utiliza IPDABLES, esta abajo el servicio.*/
+sudo firewall-cmd --add-port=4303/tcp --permanent
 sudo firewall-cmd --reload
 
 /
+INSERT INTO parametros VALUES (
+1,
+'SantaMed',
+'bucket-javiercpy',
+'principal',
+'ACTIVO',
+'NO',
+'SI',
+NULL,
+'Santa Med',
+NULL,
+NULL,
+NULL,
+NULL,
+NULL,
+'https://baileys03.kmelot.online',
+'9x586dyk-620y-458q-b4c7-1t278a43ea5fp');
 
+/
 INSERT INTO entidad (
 id_entidad,
 nombre,
