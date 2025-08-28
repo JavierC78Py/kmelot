@@ -198,3 +198,26 @@ export const deleteMessageForMe: RequestHandler = async (req, res) => {
 		res.status(500).json({ error: message });
 	}
 };
+export const readMessageForMe: RequestHandler = async (req, res) => {
+	try {
+		const { sessionId } = req.params;
+		const { jid, type = "number", message, p_ids_session } = req.body;
+		const session = WhatsappService.getSession(sessionId)!;
+
+		const exists = await WhatsappService.jidExists(session, jid, type);
+		if (!exists) return res.status(400).json({ error: "JID does not exists" });
+    
+    const lastMsgInChat = p_ids_session;
+		const result = await session.chatModify(
+  			{ markRead: true,
+          lastMessages: [lastMsgInChat]
+        }, jid
+		);
+
+		res.status(200).json(result);
+	} catch (e) {
+		const message = "An error occured during message delete";
+		logger.error(e, message);
+		res.status(500).json({ error: message });
+	}
+};
