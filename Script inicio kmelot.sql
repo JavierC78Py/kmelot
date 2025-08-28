@@ -41,22 +41,27 @@ sudo firewall-cmd --reload
 /
 INSERT INTO parametros VALUES (
 1,
-'SantaMed',
+'SantaClara',
 'bucket-javiercpy',
 'principal',
 'ACTIVO',
 'NO',
 'SI',
 NULL,
-'Santa Med',
+'Santa Clara S.A.',
 NULL,
 NULL,
 NULL,
 NULL,
 NULL,
-'https://baileys03.kmelot.online',
-'9x586dyk-620y-458q-b4c7-1t278a43ea5fp');
-
+'https://baileys04.kmelot.online',
+'9x786wyk-690y-458q-b4x7-1t287g43ea5kp',
+NULL,
+NULL);
+/
+INSERT INTO tipo_documento VALUES (1,'CEDULA DE IDENTIDAD'                ,'ACTIVO','C.I.'      );
+INSERT INTO tipo_documento VALUES (2,'PASAPORTE'                          ,'ACTIVO','PASAPORTE' );
+INSERT INTO tipo_documento VALUES (3,'REGISTRO UNICO DE CONTRIBUYENTE'    ,'ACTIVO','R.U.C.'    );
 /
 INSERT INTO entidad (
 id_entidad,
@@ -83,8 +88,8 @@ correo,
 fact_responsable,
 resp_ent_id_entidad
 ) VALUES (
-   NULL --id_entidad,
-  ,'SANTA MED' --nombre,
+   1 --id_entidad,
+  ,'SANTA CLARA S.A.' --nombre,
   ,3 --tip_id_tipo_documento,
   ,'1' --numero_documento,
   ,'NO' --es_cliente,
@@ -108,10 +113,7 @@ resp_ent_id_entidad
   ,NULL --resp_ent_id_entidad
 );
 /
-INSERT INTO tipo_documento VALUES (1,'CEDULA DE IDENTIDAD'                ,'ACTIVO','C.I.'      );
-INSERT INTO tipo_documento VALUES (2,'PASAPORTE'                          ,'ACTIVO','PASAPORTE' );
-INSERT INTO tipo_documento VALUES (3,'REGISTRO UNICO DE CONTRIBUYENTE'    ,'ACTIVO','R.U.C.'    );
-/
+
 INSERT INTO sucursal_entidad (
 id_suc_entidad,
 ent_id_entidad,
@@ -189,6 +191,19 @@ resp_ent_id_entidad
   ,NULL --fact_responsable,
   ,NULL --resp_ent_id_entidad
 );
+/
+INSERT INTO usuarios VALUES (
+   NULL           --id_usuario
+ , SYSDATE        --fecha_alta
+ , 'JAVIERC'      --usuario
+ , 'Secreto2024'  --password
+ , NULL           --password1
+ , NULL           --password2
+ , NULL           --password3
+ , 'javier@kmelot.online'--correo
+ , 'ACTIVO'       --estado
+ , 'NO'           --bloqueado
+ );
 /
 INSERT INTO pagina VALUES (2,'MONEDA','TESORERIA','DEFINICIONES');
 INSERT INTO pagina VALUES (4,'SUCURSAL','CONTABILIDAD','DEFINICIONES');
