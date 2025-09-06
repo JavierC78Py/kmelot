@@ -54,5 +54,12 @@ router.delete(
 	sessionValidator,
 	message.deleteMessage,
 );
+router.post(
+	"/read-message",
+	body("jid").isString().notEmpty(),
+	requestValidator,
+	sessionValidator,
+	message.readMessageForMe,
+);
 
 export default router;
