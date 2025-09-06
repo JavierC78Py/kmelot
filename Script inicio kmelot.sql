@@ -7,15 +7,15 @@ skip-networking" > /etc/my.cnf.d/skip-grant-tables.cnf'
 mysqldump -u root -p --no-data baileys_db > solo_estructura.sql
 //*Crear base y user*/
 mysql -u root -e "SHOW DATABASES;"
-mysql -u root -e "CREATE DATABASE baileys_db03;"
-mysql -u root -e "CREATE USER 'baileys_user03'@'localhost' IDENTIFIED BY 'Secreto*2024';"
-GRANT ALL PRIVILEGES ON baileys_db03.* TO 'baileys_user03'@'localhost';
+mysql -u root -e "CREATE DATABASE baileys_db04;"
+mysql -u root -e "CREATE USER 'baileys_user04'@'localhost' IDENTIFIED BY 'Secreto*2024';"
+GRANT ALL PRIVILEGES ON baileys_db04.* TO 'baileys_user04'@'localhost';
 FLUSH PRIVILEGES;
 /
 /*verificar*/
-SHOW DATABASES LIKE 'baileys_db03';
-SELECT User, Host FROM mysql.user WHERE User = 'baileys_user03';
-SHOW GRANTS FOR 'baileys_user03'@'localhost';
+SHOW DATABASES LIKE 'baileys_db04';
+SELECT User, Host FROM mysql.user WHERE User = 'baileys_user04';
+SHOW GRANTS FOR 'baileys_user04'@'localhost';
 /
 mysql -u baileys_user03 -p -D baileys_db03
 /
@@ -23,7 +23,7 @@ mysql -u root -e "USE baileys_db02; delete  FROM Message;"
 mysql -u root -e "USE baileys_db02; delete  FROM Chat;"
 
 /*restaurar backup*/
-mysql -u root -p baileys_db03 < solo_estructura.sql
+mysql -u root -p baileys_db04 < solo_estructura.sql;
 
 mysql -u root -e "USE baileys_db02; SHOW TABLES;"
 mysql -u root -e "USE baileys_db02; SELECT COUNT(*) FROM nombre_de_tabla;"
@@ -35,7 +35,7 @@ sudo vi  /etc/my.cnf.d/skip-grant-tables.cnf
 sudo systemctl stop  mysqld
 
 /*No se utiliza IPDABLES, esta abajo el servicio.*/
-sudo firewall-cmd --add-port=4303/tcp --permanent
+sudo firewall-cmd --add-port=4304/tcp --permanent
 sudo firewall-cmd --reload
 
 /
