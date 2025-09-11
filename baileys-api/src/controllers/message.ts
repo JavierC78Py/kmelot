@@ -161,63 +161,64 @@ export const deleteMessage: RequestHandler = async (req, res) => {
 	}
 };
 
+// ... (código anterior se mantiene igual)
+
 export const deleteMessageForMe: RequestHandler = async (req, res) => {
-	try {
-		const { sessionId } = req.params;
-		/**
-		 * @type {string} jid
-		 * @type {string} type
-		 * @type {object} message
-		 *
-		 * @example {
-		 * 	"jid": "120363xxx8@g.us",
-		 * 	"type": "group",
-		 * 	"message": {
-		 * 		"id": "ATWYHDNNWU81732J",
-		 * 		"fromMe": false,
-		 * 		"timestamp": "1654823909"
-		 * 	}
-		 * }
-		 * @returns {object} result
-		 */
-		const { jid, type = "number", message } = req.body;
-		const session = WhatsappService.getSession(sessionId)!;
+    try {
+        const { sessionId } = req.params;
+        const { jid, type = "number", message } = req.body;
+        const session = WhatsappService.getSession(sessionId)!;
 
-		const exists = await WhatsappService.jidExists(session, jid, type);
-		if (!exists) return res.status(400).json({ error: "JID does not exists" });
+        const exists = await WhatsappService.jidExists(session, jid, type);
+        if (!exists) return res.status(400).json({ error: "JID does not exists" });
 
-		const result = await session.chatModify(
-  			{ clear: { messages: [message] } as any },
-  			jid
-		);
+        // LÍNEA CORREGIDA - agregar lastMessages
+        const result = await session.chatModify(
+            { 
+                clear: { messages: [message] } as any,
+                lastMessages: [{ key: message }]  // ← Propiedad requerida agregada
+            },
+            jid
+        );
 
-		res.status(200).json(result);
-	} catch (e) {
-		const message = "An error occured during message delete";
-		logger.error(e, message);
-		res.status(500).json({ error: message });
-	}
+        res.status(200).json(result);
+    } catch (e) {
+        const message = "An error occured during message delete";
+        logger.error(e, message);
+        res.status(500).json({ error: message });
+    }
 };
+
 export const readMessageForMe: RequestHandler = async (req, res) => {
-	try {
-		const { sessionId } = req.params;
-		const { jid, type = "number", message, p_ids_session } = req.body;
-		const session = WhatsappService.getSession(sessionId)!;
+    try {
+        const { sessionId } = req.params;
+        const { jid, type = "number", message_ids } = req.body;
+        const session = WhatsappService.getSession(sessionId)!;
 
-		const exists = await WhatsappService.jidExists(session, jid, type);
-		if (!exists) return res.status(400).json({ error: "JID does not exists" });
-    
-    const lastMsgInChat = p_ids_session;
-		const result = await session.chatModify(
-  			{ markRead: true,
-          lastMessages: [lastMsgInChat]
-        }, jid
-		);
+        const exists = await WhatsappService.jidExists(session, jid, type);
+        if (!exists) return res.status(400).json({ error: "JID does not exists" });
 
-		res.status(200).json(result);
-	} catch (e) {
-		const message = "An error occured during message delete";
-		logger.error(e, message);
-		res.status(500).json({ error: message });
-	}
+        // Convertir a array si es string
+        const messageIdsArray = Array.isArray(message_ids) 
+            ? message_ids 
+            : message_ids ? [message_ids] : [];
+
+        if (messageIdsArray.length > 0) {
+            // Método correcto para marcar como leído
+            await session.sendReceipt(jid, undefined, messageIdsArray, 'read');
+            
+            res.status(200).json({ 
+                success: true, 
+                message: `${messageIdsArray.length} messages marked as read`,
+                read_ids: messageIdsArray
+            });
+        } else {
+            res.status(400).json({ error: "No message IDs provided" });
+        }
+
+    } catch (e) {
+        const message = "An error occured during message read";
+        logger.error(e, message);
+        res.status(500).json({ error: message });
+    }
 };
