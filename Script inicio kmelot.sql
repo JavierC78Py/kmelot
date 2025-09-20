@@ -308,7 +308,7 @@ INSERT INTO usuario_rol VALUES (2,1,1  );
 INSERT INTO usuario_rol VALUES (3,1,11 );
 INSERT INTO usuario_rol VALUES (4,1,13 );
 /
-
+ALTER USER silvio account unlock IDENTIFIED BY Paraguay2021
 
 
 
