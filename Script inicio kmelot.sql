@@ -41,27 +41,31 @@ sudo firewall-cmd --reload
 /
 INSERT INTO parametros VALUES (
 1,
-'SantaClara',
-'bucket-javiercpy',
-'principal',
+'Salotex',
+'bucket-kmelot',
+'salotex',
 'ACTIVO',
 'NO',
 'SI',
 NULL,
-'Santa Clara S.A.',
+'Salotex S.A.',
 NULL,
 NULL,
 NULL,
 NULL,
-NULL,
+1,
 'https://baileys04.kmelot.online',
 '9x786wyk-690y-458q-b4x7-1t287g43ea5kp',
 NULL,
 NULL);
 /
+UPDATE parametros SET ent_id_entidad = 1
+/
 INSERT INTO tipo_documento VALUES (1,'CEDULA DE IDENTIDAD'                ,'ACTIVO','C.I.'      );
 INSERT INTO tipo_documento VALUES (2,'PASAPORTE'                          ,'ACTIVO','PASAPORTE' );
 INSERT INTO tipo_documento VALUES (3,'REGISTRO UNICO DE CONTRIBUYENTE'    ,'ACTIVO','R.U.C.'    );
+/
+alter sequence seq_tipo_documento restart start with 4;
 /
 INSERT INTO entidad (
 id_entidad,
@@ -89,7 +93,7 @@ fact_responsable,
 resp_ent_id_entidad
 ) VALUES (
    1 --id_entidad,
-  ,'SANTA CLARA S.A.' --nombre,
+  ,'SALOTEX S.A.' --nombre,
   ,3 --tip_id_tipo_documento,
   ,'1' --numero_documento,
   ,'NO' --es_cliente,
@@ -113,7 +117,8 @@ resp_ent_id_entidad
   ,NULL --resp_ent_id_entidad
 );
 /
-
+alter sequence seq_entidad restart start with 2;
+/
 INSERT INTO sucursal_entidad (
 id_suc_entidad,
 ent_id_entidad,
@@ -131,7 +136,7 @@ link_mapa
      NULL --id_suc_entidad,
     ,1--ent_id_entidad,
     ,'CASA CENTRAL'--descripcion,
-    ,'O’Higgins N° 631 entre Sucre y Lillo'--direccion,
+    ,'CASA CENTRAL'--direccion,
     ,NULL--latitud,
     ,NULL--longitud,
     ,NULL--telefono1,
@@ -141,6 +146,8 @@ link_mapa
     ,NULL--ciu_cod_ciudad,
     ,NULL--link_mapa
 );
+/
+alter sequence seq_sucursal_entidad restart start with 2;
 /
 INSERT INTO entidad (
 id_entidad,
@@ -180,9 +187,9 @@ resp_ent_id_entidad
   ,NULL --observacion,
   ,1 --usu_id_usuario,
   ,NULL --tipo_entidad,
-  ,1 --suc_id_sucursal,
+  ,NULL --suc_id_sucursal,
   ,NULL --ciu_cod_ciudad,
-  ,NULL --ent_id_entidad,
+  ,1 --ent_id_entidad,
   ,NULL --es_prestador,
   ,NULL --es_paciente,
   ,NULL --sexo,
