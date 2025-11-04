@@ -1,0 +1,168 @@
+/* Solo ver salto entre registros 
+En la region, agregar accion dinamica que sea por cada selection change que llame a la funcion ver_detalle_registro.
+*/ 
+function ver_detalle_registro() {
+    var ig$ = apex.region("REG_PRE_COBERTURA").widget();
+    var viewMode = ig$.interactiveGrid("getViews", "grid"); 
+    console.log(viewMode);
+    var selectedRecords = ig$.interactiveGrid("getSelectedRecords"); 
+    console.log("Registro:",selectedRecords); // Outputs an array of selected records
+    if (selectedRecords && selectedRecords.length > 0) {
+        var idCobertura = selectedRecords[0][0];
+        console.log("ID COBERTURA:", idCobertura);
+    } else {
+        console.log("No hay registros seleccionados");
+    }
+}
+
+
+/*  OTRO con control update */ */
+(function($) {
+    function update(model) {
+        var salKey = model.getFieldKey("MONTO_SERVICIO"),
+            ncKey  = model.getFieldKey("MONTO_NC"),
+            ivaKey = model.getFieldKey("IVA_ID"),
+            total = 0,
+            total10 = 0,
+            total0 = 0,
+            totalNc = 0,
+            cantidad = 0,
+            total5 = 0;
+        //console.log(">> starting sum MONTO_SERVICIO column");
+        model.forEach(function(record, index, id) {
+            // Obtener el valor como string
+            var salStr = record[salKey];
+            var ncStr = record[ncKey];
+            var sal = 0;
+            var nc = 0;
+            if (salStr !== null && salStr !== undefined) {
+                // Si es un string, convertirlo correctamente
+                if (typeof salStr === 'string') {
+                    // Primero eliminar cualquier separador de miles (puntos)
+                    // Luego reemplazar coma decimal por punto
+                    salStr = salStr.replace(/\./g, '').replace(',', '.');
+                }
+                sal = parseFloat(salStr);
+            }
+            if (ncStr !== null && ncStr !== undefined) {
+                if (typeof ncStr === 'string') {
+                    ncStr = ncStr.replace(/\./g, '').replace(',', '.');
+                }
+                nc = parseFloat(ncStr);
+            }
+            var meta = model.getRecordMetadata(id);
+            // Verificar que no sean NaN antes de sumar
+            if (!meta.deleted && !meta.agg) {
+                // Para el monto de servicio
+                if (!isNaN(sal)) {
+                    // Siempre sumamos al total general
+                    total += sal;
+                    cantidad += 1;
+                    // Verificar el valor de IVA_ID
+                    var idIva = record[ivaKey];
+                    //console.log("IVA_ID:", idIva, "MONTO_SERVICIO:", sal);
+                    // Clasificar según IVA_ID
+                    if (idIva == 2) {
+                        total10 += sal;
+                        //console.log("Sumando al TOTAL_10:", sal, "- Acumulado:", total10);
+                    }
+                    else if (idIva == 3) {
+                        total5 += sal;
+                        //console.log("Sumando al TOTAL_5:", sal, "- Acumulado:", total5);
+                    }
+                    else if (idIva == 1 || idIva == 4) {
+                        total0 += sal;
+                        //console.log("Sumando al TOTAL_0:", sal, "- Acumulado:", total0);
+                    }
+                }
+                // Para la nota de crédito
+                if (!isNaN(nc)) {
+                    totalNc += nc;
+                }
+            }
+        });
+        //console.log(">> setting totals - TOTAL: " + total.toFixed(2) + ", TOTAL_10: " + total10.toFixed(2) + 
+        //           ", TOTAL_5: " + total5.toFixed(2) + ", TOTAL_0: " + total0.toFixed(2) + ", TOTAL_NC: " + totalNc.toFixed(2));
+        // Asegurar que los items existen antes de actualizar
+        try {
+            $s("P905_TOTAL", total.toFixed(2));
+            $s("P905_TOTAL_10", total10.toFixed(2));
+            $s("P905_TOTAL_5", total5.toFixed(2));
+            $s("P905_TOTAL_0", total0.toFixed(2));
+            $s("P905_TOTAL_NC", totalNc.toFixed(2));
+            $s("P905_CANT_SERVICIOS", cantidad);
+        } catch (e) {
+            console.error("Error al actualizar items:", e);
+        }
+    }
+    $(function() {       
+        $("#REG_SERVICIOS").on("interactivegridviewmodelcreate", function(event, ui) {
+            var sid,
+                model = ui.model;
+            if (ui.viewId === "grid") {
+                sid = model.subscribe({
+                    onChange: function(type, change) {
+                        console.log(">> model changed :", type, change);
+                        if (type === "set") {
+                            apex.message.clearErrors();
+                            var recordId = change.recordId;
+                            //Obtener la fila completa usando el recordId
+                            var record = model.getRecord(recordId);
+                            //Construir el objeto JSON con todos los datos
+                            var data = {
+                                recordId: recordId,
+                                FECHA_UTILIZACION: model.getValue(record, "FECHA_UTILIZACION"),
+                                CANTIDAD_SRV: model.getValue(record, "CANTIDAD_SRV"),
+                                ESTADO_SRV: model.getValue(record, "ESTADO_SRV").v,
+                                ID_IVA: model.getValue(record, "ID_IVA").v,
+                                FACTURAR: model.getValue(record, "FACTURAR").v,
+                                RECHAZADO: model.getValue(record, "RECHAZADO").v,
+                                OBS_RECHAZADO: model.getValue(record, "OBS_RECHAZADO").v,
+                                VERIFICADO: model.getValue(record, "VERIFICADO").v,
+                                TIENE_DIAGNOSTICO: model.getValue(record, "TIENE_DIAGNOSTICO").v,
+                                MONTO_SERVICIO: model.getValue(record, "MONTO_SERVICIO").trim(),
+                                CANT_MES_SUPERADA: model.getValue(record, "CANT_MES_SUPERADA"),
+                                OBS: model.getValue(record, "OBS")
+                            };                            
+                            //Serializar el objeto JSON en una cadena
+                            var jsonData = JSON.stringify(data);
+                            console.log("***   Datos enviados:", jsonData);
+
+                            apex.server.process("guardar_express", {
+                            pageItems: ["P905_SOLO_EXPEDIENTE","P905_P_NRO_EXPEDIENTE"]
+                                ,x01: recordId
+                                ,x02: jsonData
+                            },
+                            {
+                            success: function (data) {
+                                if (data.success === true) {
+                                    for (var i = 0; i < data.items.length; i++) {
+                                        apex.item(data.items[i].id).setValue(data.items[i].value);
+                                    }
+                                } else {
+                                    apex.message.showErrors([
+                                        {
+                                        type: "error",
+                                        location: "page",
+                                        message: data.message,
+                                        unsafe: false
+                                        }
+                                    ]);
+                                }
+                            }
+                            });
+                            if (change.field === "MONTO_SERVICIO" || change.field === "IVA_ID" || change.field === "MONTO_NC") {
+                                //update(model);
+                            }
+                        } else if (type !== "move" && type !== "metaChange") {
+                            //update(model);
+                        }
+                    },
+                    progressView: $("#P905_TOTAL") 
+                });
+                //update(model);
+                model.fetchAll(function() {});
+            }
+        });
+    });
+})(apex.jQuery);
