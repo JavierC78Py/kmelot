@@ -67,6 +67,12 @@ INSERT INTO tipo_documento VALUES (3,'REGISTRO UNICO DE CONTRIBUYENTE'    ,'ACTI
 /
 alter sequence seq_tipo_documento restart start with 4;
 /
+INSERT INTO tipo_comprobante VALUES(1,'FACTURA','ACTIVO','SI','SI','NO','NO');
+INSERT INTO tipo_comprobante VALUES(2,'RECIBO','ACTIVO','NO','NO','SI','SI');
+INSERT INTO tipo_comprobante VALUES(3,'COBRO CONTADO','ACTIVO','NO','NO','SI','SI');
+/
+alter sequence seq_tipo_comprobante restart start with 4;
+/
 INSERT INTO entidad (
 id_entidad,
 nombre,
