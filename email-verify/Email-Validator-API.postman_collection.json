@@ -1,0 +1,1242 @@
+{
+  "info": {
+    "_postman_id": "email-validator-service-001",
+    "name": "Email Validator Service API",
+    "description": "Colección completa para testing del servicio de validación de emails con soporte paraguayo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3150",
+      "type": "string"
+    },
+    {
+      "key": "admin_api_key",
+      "value": "dev-secret-key-12345",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Public Endpoints",
+      "item": [
+        {
+          "name": "Root - Service Info",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has service name\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('service');",
+                  "    pm.expect(jsonData.service).to.eql('Email Validator API');",
+                  "});",
+                  "",
+                  "pm.test(\"Response has endpoints info\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('endpoints');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"]
+            },
+            "description": "Obtiene información general del servicio"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/",
+                  "host": ["{{base_url}}"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"service\": \"Email Validator API\",\n    \"version\": \"1.0.0\",\n    \"status\": \"running\",\n    \"endpoints\": {\n        \"validateEmail\": \"POST /api/validate-email\",\n        \"validateBatch\": \"POST /api/validate-batch\",\n        \"health\": \"GET /api/health\",\n        \"stats\": \"GET /api/stats\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Health Check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Service status is ok\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.status).to.eql('ok');",
+                  "});",
+                  "",
+                  "pm.test(\"Response has timestamp\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('timestamp');",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 500ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "health"]
+            },
+            "description": "Verifica el estado del servicio y conexión con Redis"
+          },
+          "response": [
+            {
+              "name": "Healthy Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/health",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "health"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"status\": \"ok\",\n    \"timestamp\": \"2025-11-18T10:30:00.000Z\",\n    \"redis\": \"connected\",\n    \"uptime\": 3600.5,\n    \"environment\": \"development\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Service Stats",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has trusted domains count\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('trustedDomains');",
+                  "    pm.expect(jsonData.trustedDomains).to.be.a('number');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stats"]
+            },
+            "description": "Obtiene estadísticas del servicio"
+          },
+          "response": [
+            {
+              "name": "Stats Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/stats",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "stats"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"trustedDomains\": 45,\n    \"redis\": true,\n    \"memory\": {\n        \"rss\": 52428800,\n        \"heapTotal\": 20971520,\n        \"heapUsed\": 15728640\n    },\n    \"uptime\": 3600.5\n}"
+            }
+          ]
+        },
+        {
+          "name": "Validate Single Email - Valid PY",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Email is valid\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.valid).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"Response has validators\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('validators');",
+                  "    pm.expect(jsonData.validators.format).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"Paraguayan domain detected\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.validators.paraguayan).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"sotelos@santaclara.com.py\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/validate-email",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-email"]
+            },
+            "description": "Valida un email paraguayo válido"
+          },
+          "response": [
+            {
+              "name": "Valid Paraguayan Email",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"sotelos@santaclara.com.py\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/validate-email",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "validate-email"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"valid\": true,\n    \"reason\": \"Email paraguayo con registros MX válidos\",\n    \"email\": \"sotelos@santaclara.com.py\",\n    \"validators\": {\n        \"format\": true,\n        \"paraguayan\": true,\n        \"disposable\": true,\n        \"mx\": true,\n        \"dns\": true,\n        \"deepValidation\": false\n    },\n    \"fromCache\": false\n}"
+            }
+          ]
+        },
+        {
+          "name": "Validate Single Email - Government PY",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Email is valid\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.valid).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"Paraguayan government domain detected\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.validators.paraguayan).to.be.true;",
+                  "    pm.expect(jsonData.email).to.include('.gov.py');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@mec.gov.py\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/validate-email",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-email"]
+            },
+            "description": "Valida un email gubernamental paraguayo"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Single Email - International Valid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Email is valid\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.valid).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"Not paraguayan domain\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.validators.paraguayan).to.be.false;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"user@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/validate-email",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-email"]
+            },
+            "description": "Valida un email internacional"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Single Email - Invalid Format",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Email is invalid\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.valid).to.be.false;",
+                  "});",
+                  "",
+                  "pm.test(\"Format validation failed\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.validators.format).to.be.false;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"invalid@\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/validate-email",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-email"]
+            },
+            "description": "Intenta validar un email con formato inválido"
+          },
+          "response": [
+            {
+              "name": "Invalid Format Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"email\": \"invalid@\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/validate-email",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "validate-email"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"valid\": false,\n    \"reason\": \"Formato de email inválido\",\n    \"email\": \"invalid@\",\n    \"validators\": {\n        \"format\": false,\n        \"paraguayan\": false,\n        \"disposable\": true,\n        \"mx\": false,\n        \"dns\": false,\n        \"deepValidation\": false\n    },\n    \"fromCache\": false\n}"
+            }
+          ]
+        },
+        {
+          "name": "Validate Single Email - Disposable",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Email is invalid\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.valid).to.be.false;",
+                  "});",
+                  "",
+                  "pm.test(\"Disposable domain detected\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.validators.disposable).to.be.false;",
+                  "    pm.expect(jsonData.reason).to.include('desechable');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"test@tempmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/validate-email",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-email"]
+            },
+            "description": "Intenta validar un email con dominio desechable"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Single Email - Missing Email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Error message present\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.valid).to.be.false;",
+                  "    pm.expect(jsonData.reason).to.include('requerido');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/validate-email",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-email"]
+            },
+            "description": "Intenta validar sin proporcionar email"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Batch - Mixed Emails",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has totals\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('total');",
+                  "    pm.expect(jsonData).to.have.property('valid');",
+                  "    pm.expect(jsonData).to.have.property('invalid');",
+                  "});",
+                  "",
+                  "pm.test(\"Total matches array length\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.total).to.eql(jsonData.results.length);",
+                  "});",
+                  "",
+                  "pm.test(\"Valid + Invalid equals Total\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.valid + jsonData.invalid).to.eql(jsonData.total);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"emails\": [\n        \"sotelos@santaclara.com.py\",\n        \"admin@gov.py\",\n        \"user@gmail.com\",\n        \"invalid@\",\n        \"test@tempmail.com\",\n        \"contacto@mec.gov.py\"\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/validate-batch",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-batch"]
+            },
+            "description": "Valida múltiples emails en una sola petición"
+          },
+          "response": [
+            {
+              "name": "Batch Validation Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"emails\": [\n        \"sotelos@santaclara.com.py\",\n        \"admin@gov.py\",\n        \"invalid@\"\n    ]\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/validate-batch",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "validate-batch"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"total\": 3,\n    \"valid\": 2,\n    \"invalid\": 1,\n    \"results\": [\n        {\n            \"valid\": true,\n            \"reason\": \"Email paraguayo con registros MX válidos\",\n            \"email\": \"sotelos@santaclara.com.py\",\n            \"validators\": {\n                \"format\": true,\n                \"paraguayan\": true,\n                \"disposable\": true,\n                \"mx\": true,\n                \"dns\": true,\n                \"deepValidation\": false\n            },\n            \"fromCache\": false\n        },\n        {\n            \"valid\": true,\n            \"reason\": \"Email de dominio paraguayo confiable\",\n            \"email\": \"admin@gov.py\",\n            \"validators\": {\n                \"format\": true,\n                \"paraguayan\": true,\n                \"disposable\": true,\n                \"mx\": true,\n                \"dns\": true,\n                \"deepValidation\": false\n            },\n            \"fromCache\": false\n        },\n        {\n            \"valid\": false,\n            \"reason\": \"Formato de email inválido\",\n            \"email\": \"invalid@\",\n            \"validators\": {\n                \"format\": false,\n                \"paraguayan\": false,\n                \"disposable\": true,\n                \"mx\": false,\n                \"dns\": false,\n                \"deepValidation\": false\n            },\n            \"fromCache\": false\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Validate Batch - Empty Array",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Error message present\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"emails\": []\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/validate-batch",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-batch"]
+            },
+            "description": "Intenta validación batch sin emails"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Batch - Too Many Emails",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Max limit error\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.error).to.include('50');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Generar 51 emails para exceder el límite",
+                  "let emails = [];",
+                  "for(let i = 1; i <= 51; i++) {",
+                  "    emails.push(`user${i}@example.com`);",
+                  "}",
+                  "pm.variables.set('tooManyEmails', JSON.stringify(emails));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"emails\": {{tooManyEmails}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/validate-batch",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-batch"]
+            },
+            "description": "Intenta validar más de 50 emails (límite máximo)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints públicos accesibles sin autenticación"
+    },
+    {
+      "name": "Admin Endpoints",
+      "item": [
+        {
+          "name": "Add Domain to Whitelist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Success response\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test(\"Domain added correctly\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('domain');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{admin_api_key}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"domain\": \"miempresa.com.py\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/whitelist/add",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "whitelist", "add"]
+            },
+            "description": "Agrega un dominio a la whitelist de dominios confiables"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-api-key",
+                    "value": "{{admin_api_key}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"domain\": \"miempresa.com.py\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/admin/whitelist/add",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "admin", "whitelist", "add"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"domain\": \"miempresa.com.py\",\n    \"message\": \"Dominio agregado a whitelist\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add Domain - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test(\"Unauthorized error\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.error).to.include('autorizado');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"domain\": \"miempresa.com.py\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/whitelist/add",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "whitelist", "add"]
+            },
+            "description": "Intenta agregar dominio sin API key"
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Domain from Whitelist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 or 404\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "    pm.test(\"Domain removed successfully\", function () {",
+                  "        var jsonData = pm.response.json();",
+                  "        pm.expect(jsonData.success).to.be.true;",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{admin_api_key}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"domain\": \"miempresa.com.py\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/whitelist/remove",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "whitelist", "remove"]
+            },
+            "description": "Elimina un dominio de la whitelist"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-api-key",
+                    "value": "{{admin_api_key}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"domain\": \"miempresa.com.py\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/admin/whitelist/remove",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "admin", "whitelist", "remove"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"domain\": \"miempresa.com.py\",\n    \"message\": \"Dominio eliminado de whitelist\"\n}"
+            },
+            {
+              "name": "Not Found Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-api-key",
+                    "value": "{{admin_api_key}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"domain\": \"noexiste.com.py\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/admin/whitelist/remove",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "admin", "whitelist", "remove"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Dominio no encontrado en whitelist\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Whitelist Domains",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has domains array\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('domains');",
+                  "    pm.expect(jsonData.domains).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test(\"Total matches array length\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.total).to.eql(jsonData.domains.length);",
+                  "});",
+                  "",
+                  "// Guardar dominios en variable de entorno para otros tests",
+                  "var jsonData = pm.response.json();",
+                  "pm.environment.set('whitelistCount', jsonData.total);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{admin_api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/whitelist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "whitelist"]
+            },
+            "description": "Obtiene la lista completa de dominios en whitelist"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "x-api-key",
+                    "value": "{{admin_api_key}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/admin/whitelist",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "admin", "whitelist"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"domains\": [\n        \"py\",\n        \"com.py\",\n        \"org.py\",\n        \"gov.py\",\n        \"santaclara.com.py\",\n        \"mec.gov.py\",\n        \"miempresa.com.py\"\n    ],\n    \"total\": 7\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Whitelist - Unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/whitelist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "whitelist"]
+            },
+            "description": "Intenta obtener whitelist sin autenticación"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints administrativos que requieren autenticación con API key",
+      "auth": {
+        "type": "apikey",
+        "apikey": [
+          {
+            "key": "value",
+            "value": "{{admin_api_key}}",
+            "type": "string"
+          },
+          {
+            "key": "key",
+            "value": "x-api-key",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Error Cases",
+      "item": [
+        {
+          "name": "404 - Route Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Error message present\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/nonexistent",
+              "host": ["{{base_url}}"],
+              "path": ["api", "nonexistent"]
+            },
+            "description": "Intenta acceder a una ruta inexistente"
+          },
+          "response": []
+        },
+        {
+          "name": "405 - Method Not Allowed",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/validate-email",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-email"]
+            },
+            "description": "Intenta usar GET en endpoint que solo acepta POST"
+          },
+          "response": []
+        }
+      ],
+      "description": "Casos de error comunes"
+    },
+    {
+      "name": "Performance Tests",
+      "item": [
+        {
+          "name": "Cache Performance Test",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// Primera llamada",
+                  "if (pm.iteration === 0) {",
+                  "    pm.test(\"First call - not from cache\", function () {",
+                  "        var jsonData = pm.response.json();",
+                  "        pm.expect(jsonData.fromCache).to.be.false;",
+                  "    });",
+                  "    pm.environment.set('firstCallTime', pm.response.responseTime);",
+                  "}",
+                  "",
+                  "// Segunda llamada",
+                  "if (pm.iteration === 1) {",
+                  "    pm.test(\"Second call - from cache\", function () {",
+                  "        var jsonData = pm.response.json();",
+                  "        pm.expect(jsonData.fromCache).to.be.true;",
+                  "    });",
+                  "    ",
+                  "    pm.test(\"Cached response is faster\", function () {",
+                  "        var firstCall = parseInt(pm.environment.get('firstCallTime'));",
+                  "        var secondCall = pm.response.responseTime;",
+                  "        pm.expect(secondCall).to.be.below(firstCall);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"cache-test@santaclara.com.py\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/validate-email",
+              "host": ["{{base_url}}"],
+              "path": ["api", "validate-email"]
+            },
+            "description": "Test para verificar mejora de performance con cache (ejecutar 2 veces)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Tests de performance y cache"
+    }
+  ]
+}
