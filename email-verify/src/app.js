@@ -90,12 +90,9 @@ app.use(errorHandler);
 
 async function startServer() {
     try {
-        // Inicializar Redis
+        // Inicializar Redis y esperar a que la conexión esté lista
         logger.info('Inicializando Redis...');
-        initRedis();
-        
-        // Pequeña espera para dar tiempo a Redis a conectar
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await initRedis();
         
         // Iniciar servidor
         const server = app.listen(PORT, HOST, () => {
