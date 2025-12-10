@@ -8,56 +8,57 @@ let isRedisAvailable = false;
  * Inicializa conexión Redis con manejo de errores
  */
 function initRedis() {
-    try {
-        redisClient = new Redis({
-            host: process.env.REDIS_HOST || 'localhost',
-            port: parseInt(process.env.REDIS_PORT) || 6379,
-            password: process.env.REDIS_PASSWORD || undefined,
-            db: parseInt(process.env.REDIS_DB) || 0,
-            retryStrategy: (times) => {
-                const delay = Math.min(times * 50, 2000);
-                return delay;
-            },
-            maxRetriesPerRequest: 3,
-            enableReadyCheck: true,
-            lazyConnect: true
-        });
+    return new Promise((resolve, reject) => {
+        try {
+            const client = new Redis({
+                host: process.env.REDIS_HOST || 'localhost',
+                port: parseInt(process.env.REDIS_PORT) || 6379,
+                password: process.env.REDIS_PASSWORD || undefined,
+                db: parseInt(process.env.REDIS_DB) || 0,
+                retryStrategy: (times) => {
+                    const delay = Math.min(times * 50, 2000);
+                    return delay;
+                },
+                maxRetriesPerRequest: 3,
+                enableReadyCheck: true,
+                // lazyConnect: true // No longer needed, let ioredis connect immediately
+            });
 
-        redisClient.on('connect', () => {
-            logger.info('Redis: Conectando...');
-        });
+            client.on('connect', () => {
+                logger.info('Redis: Conectando...');
+            });
 
-        redisClient.on('ready', () => {
-            isRedisAvailable = true;
-            logger.info('Redis: Conexión establecida correctamente');
-        });
+            client.on('ready', () => {
+                isRedisAvailable = true;
+                logger.info('Redis: Conexión establecida correctamente');
+                redisClient = client;
+                resolve(client);
+            });
 
-        redisClient.on('error', (err) => {
+            client.on('error', (err) => {
+                isRedisAvailable = false;
+                logger.error('Redis Error:', err); // Log the full error object
+                // If the client isn't ready, reject the promise on initial connection error
+                if (!redisClient || redisClient.status !== 'ready') {
+                    reject(new Error(`No se pudo conectar a Redis: ${err.message}`));
+                }
+            });
+
+            client.on('close', () => {
+                isRedisAvailable = false;
+                logger.warn('Redis: Conexión cerrada');
+            });
+
+            client.on('reconnecting', () => {
+                logger.info('Redis: Reconectando...');
+            });
+
+        } catch (error) {
+            logger.error('Redis: Error en inicialización:', error);
             isRedisAvailable = false;
-            logger.error('Redis Error:', err.message);
-        });
-
-        redisClient.on('close', () => {
-            isRedisAvailable = false;
-            logger.warn('Redis: Conexión cerrada');
-        });
-
-        redisClient.on('reconnecting', () => {
-            logger.info('Redis: Reconectando...');
-        });
-
-        // Intentar conectar
-        redisClient.connect().catch(err => {
-            logger.error('Redis: No se pudo conectar:', err.message);
-            isRedisAvailable = false;
-        });
-
-    } catch (error) {
-        logger.error('Redis: Error en inicialización:', error.message);
-        isRedisAvailable = false;
-    }
-
-    return redisClient;
+            reject(error);
+        }
+    });
 }
 
 /**
