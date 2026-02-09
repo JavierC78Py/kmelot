@@ -71,6 +71,22 @@ INSERT INTO tipo_comprobante VALUES(1,'FACTURA','ACTIVO','SI','SI','NO','NO');
 INSERT INTO tipo_comprobante VALUES(2,'RECIBO','ACTIVO','NO','NO','SI','SI');
 INSERT INTO tipo_comprobante VALUES(3,'COBRO CONTADO','ACTIVO','NO','NO','SI','SI');
 /
+INSERT INTO tipo_forma_pago VALUES ('EF','EFECTIVO');
+INSERT INTO tipo_forma_pago VALUES ('TC','TARJETA CREDITO');
+INSERT INTO tipo_forma_pago VALUES ('TD','TARJETA DEBITO');
+INSERT INTO tipo_forma_pago VALUES ('CH','CHEQUE');
+INSERT INTO tipo_forma_pago VALUES ('DE','DEPOSITO/TRANSF.');
+INSERT INTO tipo_forma_pago VALUES ('RT','RETENCIONES');
+/
+INSERT INTO forma_pago VALUES (1,'EFECTIVO','EFE','ACTIVO','EF',null);
+INSERT INTO forma_pago VALUES (2,'TARJETA CREDITO','TC','ACTIVO','TC','SI');
+INSERT INTO forma_pago VALUES (3,'TARJETA DEBITO','TD','ACTIVO','TD','SI');
+INSERT INTO forma_pago VALUES (4,'TRANSFERENCIA','TRA','ACTIVO','DE',null);
+INSERT INTO forma_pago VALUES (5,'CHEQUE','CH','ACTIVO','CH',null);
+INSERT INTO forma_pago VALUES (6,'RETENCION','RT','ACTIVO','RT',null);
+/
+
+/
 alter sequence seq_tipo_comprobante restart start with 4;
 /
 INSERT INTO entidad (

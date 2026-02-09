@@ -19,14 +19,10 @@
     }
     function update(model) {
         const montoKey = model.getFieldKey("MONTO");
-
         let total = 0;
-
         console.log(">> starting sum MONTO column");
-
         model.forEach(function(record, index, id) {
             const meta = model.getRecordMetadata(id);
-
             if (!meta.deleted && !meta.agg) {
                 const monto = parseCurrency(record[montoKey]);
                 total += monto;
