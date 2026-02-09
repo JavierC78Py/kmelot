@@ -32,7 +32,7 @@
                 total += monto;
             }
         });
-        const format = (num) => num.toFixed(0);
+        const format = (num) => num.toFixed(0); //cantidad de decimales
         console.log(`>> setting total - TOTAL: ${format(total)}`);
         try {
             $s("P159_TOTAL", format(total));
