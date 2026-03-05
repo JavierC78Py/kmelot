@@ -1,0 +1,120 @@
+================================================================================
+| PÁGINA 3: REPORTE DE ÓRDENES DE PRODUCCIÓN
+================================================================================
+
+1. Crea una página tipo "Report" -> "Interactive Report".
+2. Nombre: "Listado de Órdenes de Producción".
+3. Data Source > "SQL Query":
+
+```sql
+SELECT
+    o.id_orden_prod,
+    o.nro_orden,
+    o.fecha_orden,
+    o.suc_id_sucursal,
+    s.descripcion AS sucursal_desc,
+    o.pro_id_producto_fin,
+    p.descripcion AS producto_desc,
+    o.cantidad_a_producir,
+    o.costo_total_estimado,
+    o.costo_total_real,
+    o.estado,
+    o.fecha_registro
+FROM
+    salotex.cab_orden_produccion o,
+    salotex.sucursal_entidad s,
+    salotex.producto p
+WHERE o.suc_id_sucursal = s.id_suc_entidad
+  AND o.pro_id_producto_fin = p.id_producto
+```
+
+4. Configura el ícono de edición (lápiz) para pasar el parámetro `P4_ID_ORDEN_PROD` = `#ID_ORDEN_PROD#` a la Página 4.
+
+================================================================================
+| PÁGINA 4: ABM DE ORDEN DE PRODUCCIÓN (MASTER-DETAIL)
+================================================================================
+
+1. Ve a "Create Page" -> "Master Detail" -> "Master Detail".
+2. Primary Table: CAB_ORDEN_PRODUCCION 
+   Detail Table: DET_ORDEN_PRODUCCION_MAT. 
+   (Luego agregarás la de Costos OP manualmente, igual que en la receta).
+
+| REGIÓN MASTER: CABECERA Y LISTAS DE VALORES (LOV)
+- `P4_SUC_ID_SUCURSAL` (LOV): SELECT descripcion d, id_suc_entidad r FROM salotex.sucursal_entidad
+- `P4_DEP_ID_DEPOSITO_ORIG` y `DEST` (LOV): SELECT descripcion d, id_deposito r FROM salotex.deposito
+- `P4_PRO_ID_PRODUCTO_FIN` (LOV): SELECT producto_codigo || ' - ' || descripcion d, id_producto r FROM salotex.producto WHERE estado = 'ACTIVO' AND tipo = 'ART'
+- `P4_REC_ID_RECETA` (LOV Importante, traer recetas del producto seleccionado):
+  SELECT descripcion_receta d, id_receta r FROM salotex.cab_receta_produccion WHERE estado = 'ACTIVO'
+
+| ACCIÓN DINÁMICA: AUTO-COMPLETAR INSUMOS AL ELEGIR RECETA
+- Cuando el usuario crea una orden y escoge una "Receta" y la "Cantidad a Producir", no tiene sentido que cargue la M.P. manualmente a la grilla. Lo automatizamos creando un proceso APEX.
+1. Crea un Botón: "Cargar Insumos de Receta" (Aparece sólo si estado != FINALIZADO).
+2. Crea un Process tipo "PL/SQL Code" asociado a ese botón:
+
+```sql
+BEGIN
+    -- Borra lo que hay para evitar duplicar
+    DELETE FROM salotex.det_orden_produccion_mat
+    WHERE orp_id_orden_prod = :P4_ID_ORDEN_PROD;
+    
+    DELETE FROM salotex.det_orden_produccion_ope
+    WHERE orp_id_orden_prod = :P4_ID_ORDEN_PROD;
+
+    -- Trae Insumos de la Receta seleccionada
+    FOR c_mat IN (
+        SELECT pro_id_producto_mat, uni_id_unidad_medida, cantidad_requerida, mermas_porcentaje
+        FROM salotex.det_receta_produccion
+        WHERE rec_id_receta = :P4_REC_ID_RECETA
+    ) LOOP
+        INSERT INTO salotex.det_orden_produccion_mat (
+            orp_id_orden_prod, pro_id_producto_mat, uni_id_unidad_medida, 
+            cantidad_estimada, cantidad_real_consumida
+        )
+        VALUES (
+            :P4_ID_ORDEN_PROD,
+            c_mat.pro_id_producto_mat,
+            c_mat.uni_id_unidad_medida,
+            (:P4_CANTIDAD_A_PRODUCIR * c_mat.cantidad_requerida) / 
+               (SELECT cantidad_base FROM salotex.cab_receta_produccion WHERE id_receta = :P4_REC_ID_RECETA),
+            (:P4_CANTIDAD_A_PRODUCIR * c_mat.cantidad_requerida) / 
+               (SELECT cantidad_base FROM salotex.cab_receta_produccion WHERE id_receta = :P4_REC_ID_RECETA)
+        );
+    END LOOP;
+
+    -- Trae Costos Operativos de la Receta
+    FOR c_ope IN (
+        SELECT descripcion, tipo_costo, costo_estimado
+        FROM salotex.det_receta_produccion_ope
+        WHERE rec_id_receta = :P4_REC_ID_RECETA
+    ) LOOP
+        INSERT INTO salotex.det_orden_produccion_ope (
+            orp_id_orden_prod, descripcion, tipo_costo, costo_real_total
+        )
+        VALUES (
+            :P4_ID_ORDEN_PROD,
+            c_ope.descripcion,
+            c_ope.tipo_costo,
+            CASE WHEN c_ope.tipo_costo = 'FIJO_POR_ORDEN' 
+                 THEN c_ope.costo_estimado 
+                 ELSE c_ope.costo_estimado * :P4_CANTIDAD_A_PRODUCIR 
+            END
+        );
+    END LOOP;
+END;
+```
+
+================================================================================
+| CIERRE DE OPERACIONES: BOTÓN -> FINALIZAR Y AJUSTAR INVENTARIO 
+================================================================================
+1. Crear botón `Finalizar Orden`. Condition: `ESTADO` = 'EN_PROCESO' o 'PENDIENTE'.
+2. Crear un nuevo Process Pl/SQL asociado a este botón:
+
+```sql
+BEGIN
+  -- Llama al paquete recien compilado en la BD
+  salotex.pkg_produccion.finalizar_orden(
+    p_id_orden_prod => :P4_ID_ORDEN_PROD
+  );
+END;
+```
+3. Mensaje de éxito del Process: "¡Orden finalizada! Inventario actualizado."

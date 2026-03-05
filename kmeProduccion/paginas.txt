@@ -1,0 +1,6 @@
+f100_page_30.sql, reporte de productos
+f100_page_31.sql, ABM de productos
+f100_page_58.sql, reporte de factura compra
+f100_page_59.sql, ABM de factura compra
+f100_page_162.sql, reporte de ingreso a deposito
+f100_page_163.sql, ABM de ingreso a deposito
