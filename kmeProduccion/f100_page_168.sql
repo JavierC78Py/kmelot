@@ -132,7 +132,7 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'ID_RECETA'
 ,p_display_order=>1
 ,p_column_identifier=>'A'
-,p_column_label=>'Id receta'
+,p_column_label=>'ID Receta'
 ,p_column_type=>'NUMBER'
 ,p_column_alignment=>'CENTER'
 ,p_use_as_row_header=>'N'
@@ -151,8 +151,9 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'PRO_ID_PRODUCTO_FIN'
 ,p_display_order=>3
 ,p_column_identifier=>'C'
-,p_column_label=>'Id producto'
+,p_column_label=>'ID Producto'
 ,p_column_type=>'NUMBER'
+,p_display_text_as=>'HIDDEN_ESCAPE_SC'
 ,p_column_alignment=>'RIGHT'
 ,p_use_as_row_header=>'N'
 );
@@ -161,7 +162,7 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'PRODUCTO_FINAL_DESC'
 ,p_display_order=>4
 ,p_column_identifier=>'D'
-,p_column_label=>unistr('Producto descripci\00F3n')
+,p_column_label=>'Producto Final'
 ,p_column_type=>'STRING'
 ,p_use_as_row_header=>'N'
 );
@@ -170,10 +171,11 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'CANTIDAD_BASE'
 ,p_display_order=>5
 ,p_column_identifier=>'E'
-,p_column_label=>'Cantidad base'
+,p_column_label=>'Cantidad Base'
 ,p_column_type=>'NUMBER'
 ,p_heading_alignment=>'RIGHT'
 ,p_column_alignment=>'RIGHT'
+,p_format_mask=>'999G999G999G999G990D00'
 ,p_use_as_row_header=>'N'
 );
 wwv_flow_imp_page.create_worksheet_column(
@@ -181,7 +183,7 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'UNI_ID_UNIDAD_MEDIDA'
 ,p_display_order=>6
 ,p_column_identifier=>'F'
-,p_column_label=>'Uni. medida'
+,p_column_label=>'Uni. Medida ID'
 ,p_column_type=>'NUMBER'
 ,p_display_text_as=>'HIDDEN_ESCAPE_SC'
 );
@@ -190,7 +192,7 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'UNIDAD_MEDIDA_ABREV'
 ,p_display_order=>7
 ,p_column_identifier=>'G'
-,p_column_label=>'Unidad medida'
+,p_column_label=>'Unidad Medida'
 ,p_column_type=>'STRING'
 ,p_column_alignment=>'CENTER'
 ,p_use_as_row_header=>'N'
@@ -234,6 +236,19 @@ wwv_flow_imp_page.create_worksheet_rpt(
 ,p_status=>'PUBLIC'
 ,p_is_default=>'Y'
 ,p_report_columns=>'ID_RECETA:DESCRIPCION_RECETA:PRO_ID_PRODUCTO_FIN:PRODUCTO_FINAL_DESC:CANTIDAD_BASE:UNI_ID_UNIDAD_MEDIDA:UNIDAD_MEDIDA_ABREV:ESTADO:USUARIO_REGISTRO:FECHA_REGISTRO'
+);
+wwv_flow_imp_page.create_page_button(
+ p_id=>wwv_flow_imp.id(49558964958295536)
+,p_button_sequence=>10
+,p_button_plug_id=>wwv_flow_imp.id(49535340212275119)
+,p_button_name=>'CREATE'
+,p_button_action=>'REDIRECT_PAGE'
+,p_button_template_options=>'#DEFAULT#'
+,p_button_template_id=>4072362960822175091
+,p_button_is_hot=>'Y'
+,p_button_image_alt=>'Crear Receta'
+,p_button_position=>'RIGHT_OF_IR_SEARCH_BAR'
+,p_button_redirect_url=>'f?p=&APP_ID.:170:&APP_SESSION.::&DEBUG.:170::'
 );
 end;
 /
