@@ -23,7 +23,7 @@ whenever sqlerror exit sql.sqlcode rollback
 begin
 wwv_flow_imp.import_begin (
  p_version_yyyy_mm_dd=>'2024.11.30'
-,p_release=>'24.2.13'
+,p_release=>'24.2.14'
 ,p_default_workspace_id=>14331749518156511
 ,p_default_application_id=>100
 ,p_default_id_offset=>14532183965285249
@@ -43,7 +43,7 @@ prompt APPLICATION 100 - Kmelot
 --   Manifest
 --     PAGE: 168
 --   Manifest End
---   Version:         24.2.13
+--   Version:         24.2.14
 --   Instance ID:     8131532866458080
 --
 
@@ -65,7 +65,13 @@ wwv_flow_imp_page.create_page(
 ,p_step_title=>unistr('Reporte de Recetas de Producci\00F3n')
 ,p_autocomplete_on_off=>'OFF'
 ,p_css_file_urls=>'#WORKSPACE_FILES#template-floating-minimalista#MIN#.css'
+,p_inline_css=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'.t-Footer {',
+'    padding-top: 0px;',
+'    padding-bottom: 0px;',
+'}'))
 ,p_page_template_options=>'#DEFAULT#'
+,p_required_role=>wwv_flow_imp.id(51133305786937070)
 ,p_protection_level=>'C'
 ,p_page_component_map=>'18'
 );
@@ -132,7 +138,7 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'ID_RECETA'
 ,p_display_order=>1
 ,p_column_identifier=>'A'
-,p_column_label=>'ID Receta'
+,p_column_label=>'ID receta'
 ,p_column_type=>'NUMBER'
 ,p_column_alignment=>'CENTER'
 ,p_use_as_row_header=>'N'
@@ -151,18 +157,16 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'PRO_ID_PRODUCTO_FIN'
 ,p_display_order=>3
 ,p_column_identifier=>'C'
-,p_column_label=>'ID Producto'
+,p_column_label=>'ID producto'
 ,p_column_type=>'NUMBER'
 ,p_display_text_as=>'HIDDEN_ESCAPE_SC'
-,p_column_alignment=>'RIGHT'
-,p_use_as_row_header=>'N'
 );
 wwv_flow_imp_page.create_worksheet_column(
  p_id=>wwv_flow_imp.id(49537338416275126)
 ,p_db_column_name=>'PRODUCTO_FINAL_DESC'
 ,p_display_order=>4
 ,p_column_identifier=>'D'
-,p_column_label=>'Producto Final'
+,p_column_label=>'Producto final'
 ,p_column_type=>'STRING'
 ,p_use_as_row_header=>'N'
 );
@@ -171,7 +175,7 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'CANTIDAD_BASE'
 ,p_display_order=>5
 ,p_column_identifier=>'E'
-,p_column_label=>'Cantidad Base'
+,p_column_label=>'Cantidad base'
 ,p_column_type=>'NUMBER'
 ,p_heading_alignment=>'RIGHT'
 ,p_column_alignment=>'RIGHT'
@@ -183,7 +187,7 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'UNI_ID_UNIDAD_MEDIDA'
 ,p_display_order=>6
 ,p_column_identifier=>'F'
-,p_column_label=>'Uni. Medida ID'
+,p_column_label=>'Uni. medida ID'
 ,p_column_type=>'NUMBER'
 ,p_display_text_as=>'HIDDEN_ESCAPE_SC'
 );
@@ -192,7 +196,7 @@ wwv_flow_imp_page.create_worksheet_column(
 ,p_db_column_name=>'UNIDAD_MEDIDA_ABREV'
 ,p_display_order=>7
 ,p_column_identifier=>'G'
-,p_column_label=>'Unidad Medida'
+,p_column_label=>'Unidad medida'
 ,p_column_type=>'STRING'
 ,p_column_alignment=>'CENTER'
 ,p_use_as_row_header=>'N'
@@ -249,6 +253,7 @@ wwv_flow_imp_page.create_page_button(
 ,p_button_image_alt=>'Crear Receta'
 ,p_button_position=>'RIGHT_OF_IR_SEARCH_BAR'
 ,p_button_redirect_url=>'f?p=&APP_ID.:170:&APP_SESSION.::&DEBUG.:170::'
+,p_security_scheme=>wwv_flow_imp.id(51133731304940591)
 );
 end;
 /

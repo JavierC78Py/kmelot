@@ -23,7 +23,7 @@ whenever sqlerror exit sql.sqlcode rollback
 begin
 wwv_flow_imp.import_begin (
  p_version_yyyy_mm_dd=>'2024.11.30'
-,p_release=>'24.2.13'
+,p_release=>'24.2.14'
 ,p_default_workspace_id=>14331749518156511
 ,p_default_application_id=>100
 ,p_default_id_offset=>14532183965285249
@@ -43,7 +43,7 @@ prompt APPLICATION 100 - Kmelot
 --   Manifest
 --     PAGE: 170
 --   Manifest End
---   Version:         24.2.13
+--   Version:         24.2.14
 --   Instance ID:     8131532866458080
 --
 
@@ -65,14 +65,25 @@ wwv_flow_imp_page.create_page(
 ,p_step_title=>'Detalle de receta'
 ,p_autocomplete_on_off=>'OFF'
 ,p_css_file_urls=>'#WORKSPACE_FILES#template-floating-minimalista#MIN#.css'
+,p_inline_css=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'.t-Body-contentInner {',
+'    padding-top: 0px;',
+'}',
+'',
+'.t-Footer, .t-Region-body {',
+'    padding-top: 0px;',
+'    padding-bottom: 0px;',
+'}',
+''))
 ,p_page_template_options=>'#DEFAULT#'
+,p_required_role=>wwv_flow_imp.id(51133305786937070)
 ,p_protection_level=>'C'
 ,p_page_component_map=>'02'
 );
 wwv_flow_imp_page.create_page_plug(
  p_id=>wwv_flow_imp.id(49541977427295516)
 ,p_plug_name=>'Datos de Receta'
-,p_region_template_options=>'#DEFAULT#:t-Region--scrollBody'
+,p_region_template_options=>'#DEFAULT#:t-Region--hideHeader js-addHiddenHeadingRoleDesc:t-Region--scrollBody'
 ,p_plug_template=>4072358936313175081
 ,p_plug_display_sequence=>10
 ,p_query_type=>'TABLE'
@@ -92,6 +103,7 @@ wwv_flow_imp_page.create_page_plug(
 ,p_plug_template=>2531463326621247859
 ,p_plug_display_sequence=>10
 ,p_plug_display_point=>'REGION_POSITION_01'
+,p_location=>null
 ,p_menu_id=>wwv_flow_imp.id(86947038457749062)
 ,p_plug_source_type=>'NATIVE_BREADCRUMB'
 ,p_menu_template_id=>4072363345357175094
@@ -99,39 +111,58 @@ wwv_flow_imp_page.create_page_plug(
 wwv_flow_imp_page.create_page_plug(
  p_id=>wwv_flow_imp.id(49560602120295798)
 ,p_plug_name=>'Insumos y Materiales'
+,p_region_name=>'REG_INSUMOS'
 ,p_region_template_options=>'#DEFAULT#:t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc'
 ,p_plug_template=>2100526641005906379
 ,p_plug_display_sequence=>30
-,p_query_type=>'TABLE'
-,p_query_table=>'DET_RECETA_PRODUCCION'
-,p_query_where=>'REC_ID_RECETA = :P170_ID_RECETA'
-,p_include_rowid_column=>false
+,p_query_type=>'SQL'
+,p_plug_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'select D.ID_DET_RECETA,',
+'       D.REC_ID_RECETA,',
+'       D.PRO_ID_PRODUCTO_MAT,',
+'       D.UNI_ID_UNIDAD_MEDIDA,',
+'       D.CANTIDAD_REQUERIDA,',
+'       D.MERMAS_PORCENTAJE,',
+'       D.ESTADO,',
+'       (',
+'        SELECT P.TIPO',
+'        FROM PRODUCTO P',
+'        WHERE P.ID_PRODUCTO = D.PRO_ID_PRODUCTO_MAT',
+'       ) TIPO_ARTICULO',
+'  from DET_RECETA_PRODUCCION D',
+' where D.REC_ID_RECETA = :P170_ID_RECETA',
+' '))
 ,p_plug_source_type=>'NATIVE_IG'
 ,p_ajax_items_to_submit=>'P170_ID_RECETA'
 ,p_plug_display_condition_type=>'ITEM_IS_NOT_NULL'
 ,p_plug_display_when_condition=>'P170_ID_RECETA'
 ,p_prn_page_header=>'Insumos y Materiales'
+,p_plug_header=>'Insumos y materiales'
 );
 wwv_flow_imp_page.create_region_column(
  p_id=>wwv_flow_imp.id(49561868286295802)
 ,p_name=>'APEX$ROW_SELECTOR'
+,p_session_state_data_type=>'VARCHAR2'
 ,p_item_type=>'NATIVE_ROW_SELECTOR'
 ,p_display_sequence=>10
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
   'enable_multi_select', 'Y',
   'hide_control', 'N',
   'show_select_all', 'Y')).to_clob
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>false
 );
 wwv_flow_imp_page.create_region_column(
  p_id=>wwv_flow_imp.id(49562254451295802)
 ,p_name=>'APEX$ROW_ACTION'
+,p_session_state_data_type=>'VARCHAR2'
 ,p_item_type=>'NATIVE_ROW_ACTION'
 ,p_label=>'Actions'
 ,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>20
 ,p_value_alignment=>'CENTER'
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>false
 );
@@ -148,6 +179,7 @@ wwv_flow_imp_page.create_region_column(
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
   'value_protected', 'Y')).to_clob
 ,p_enable_filter=>false
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>true
 ,p_duplicate_value=>true
@@ -166,6 +198,7 @@ wwv_flow_imp_page.create_region_column(
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
   'value_protected', 'Y')).to_clob
 ,p_enable_filter=>false
+,p_use_as_row_header=>false
 ,p_enable_hide=>true
 ,p_is_primary_key=>false
 ,p_default_type=>'ITEM'
@@ -181,18 +214,22 @@ wwv_flow_imp_page.create_region_column(
 ,p_data_type=>'NUMBER'
 ,p_is_query_only=>false
 ,p_item_type=>'NATIVE_POPUP_LOV'
-,p_heading=>'Pro Id Producto Mat'
-,p_heading_alignment=>'LEFT'
+,p_heading=>'Producto materia prima'
+,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>50
 ,p_value_alignment=>'LEFT'
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
+  'additional_outputs', 'TIPO:TIPO_ARTICULO',
   'case_sensitive', 'N',
-  'display_as', 'POPUP',
-  'fetch_on_search', 'N',
+  'display_as', 'DIALOG',
+  'fetch_on_search', 'Y',
+  'height', '600',
   'initial_fetch', 'FIRST_ROWSET',
   'manual_entry', 'N',
   'match_type', 'CONTAINS',
-  'min_chars', '0')).to_clob
+  'min_chars', '0',
+  'title', 'Materia prima',
+  'width', '900')).to_clob
 ,p_is_required=>true
 ,p_lov_type=>'SHARED'
 ,p_lov_id=>wwv_flow_imp.id(39750224904475773)
@@ -221,15 +258,16 @@ wwv_flow_imp_page.create_region_column(
 ,p_data_type=>'NUMBER'
 ,p_is_query_only=>false
 ,p_item_type=>'NATIVE_SELECT_LIST'
-,p_heading=>'Uni Id Unidad Medida'
-,p_heading_alignment=>'LEFT'
+,p_heading=>'Unidad medida'
+,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>60
 ,p_value_alignment=>'LEFT'
 ,p_is_required=>true
 ,p_lov_type=>'SHARED'
 ,p_lov_id=>wwv_flow_imp.id(38351932844884456)
-,p_lov_display_extra=>true
+,p_lov_display_extra=>false
 ,p_lov_display_null=>true
+,p_lov_null_text=>'-- Seleccione'
 ,p_enable_filter=>true
 ,p_filter_operators=>'C:S:CASE_INSENSITIVE:REGEXP'
 ,p_filter_is_required=>false
@@ -251,17 +289,16 @@ wwv_flow_imp_page.create_region_column(
 ,p_source_type=>'DB_COLUMN'
 ,p_source_expression=>'CANTIDAD_REQUERIDA'
 ,p_data_type=>'NUMBER'
-,p_session_state_data_type=>'VARCHAR2'
 ,p_is_query_only=>false
 ,p_item_type=>'NATIVE_NUMBER_FIELD'
-,p_heading=>'Cantidad Requerida'
-,p_heading_alignment=>'RIGHT'
+,p_heading=>'Cantidad requerida'
+,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>70
 ,p_value_alignment=>'RIGHT'
-,p_format_mask=>'999G999G999G999G990D00'
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
   'number_alignment', 'left',
   'virtual_keyboard', 'decimal')).to_clob
+,p_format_mask=>'999G999G999G999G990D00'
 ,p_is_required=>true
 ,p_enable_filter=>true
 ,p_filter_is_required=>false
@@ -281,17 +318,16 @@ wwv_flow_imp_page.create_region_column(
 ,p_source_type=>'DB_COLUMN'
 ,p_source_expression=>'MERMAS_PORCENTAJE'
 ,p_data_type=>'NUMBER'
-,p_session_state_data_type=>'VARCHAR2'
 ,p_is_query_only=>false
 ,p_item_type=>'NATIVE_NUMBER_FIELD'
-,p_heading=>'Mermas Porcentaje'
-,p_heading_alignment=>'RIGHT'
+,p_heading=>'Mermas porcentaje'
+,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>80
 ,p_value_alignment=>'RIGHT'
-,p_format_mask=>'99G990D00'
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
   'number_alignment', 'left',
   'virtual_keyboard', 'decimal')).to_clob
+,p_format_mask=>'99G990D00'
 ,p_is_required=>false
 ,p_enable_filter=>true
 ,p_filter_is_required=>false
@@ -311,34 +347,61 @@ wwv_flow_imp_page.create_region_column(
 ,p_source_type=>'DB_COLUMN'
 ,p_source_expression=>'ESTADO'
 ,p_data_type=>'VARCHAR2'
-,p_session_state_data_type=>'VARCHAR2'
 ,p_is_query_only=>false
-,p_item_type=>'NATIVE_TEXT_FIELD'
+,p_item_type=>'NATIVE_SELECT_LIST'
 ,p_heading=>'Estado'
-,p_heading_alignment=>'LEFT'
+,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>90
-,p_value_alignment=>'LEFT'
-,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
-  'disabled', 'N',
-  'send_on_page_submit', 'N',
-  'submit_when_enter_pressed', 'N',
-  'subtype', 'TEXT',
-  'trim_spaces', 'BOTH')).to_clob
+,p_value_alignment=>'CENTER'
 ,p_is_required=>true
-,p_max_length=>10
+,p_lov_type=>'SHARED'
+,p_lov_id=>wwv_flow_imp.id(89273472179480473)
+,p_lov_display_extra=>false
+,p_lov_display_null=>false
 ,p_enable_filter=>true
 ,p_filter_operators=>'C:S:CASE_INSENSITIVE:REGEXP'
 ,p_filter_is_required=>false
 ,p_filter_text_case=>'MIXED'
 ,p_filter_exact_match=>true
-,p_filter_lov_type=>'DISTINCT'
+,p_filter_lov_type=>'LOV'
 ,p_use_as_row_header=>false
 ,p_enable_sort_group=>true
 ,p_enable_control_break=>true
 ,p_enable_hide=>true
 ,p_enable_pivot=>false
 ,p_is_primary_key=>false
+,p_default_type=>'STATIC'
+,p_default_expression=>'ACTIVO'
 ,p_duplicate_value=>true
+,p_include_in_export=>true
+);
+wwv_flow_imp_page.create_region_column(
+ p_id=>wwv_flow_imp.id(49574005355327012)
+,p_name=>'TIPO_ARTICULO'
+,p_source_type=>'DB_COLUMN'
+,p_source_expression=>'TIPO_ARTICULO'
+,p_data_type=>'VARCHAR2'
+,p_is_query_only=>true
+,p_item_type=>'NATIVE_TEXT_FIELD'
+,p_heading=>'Tipo articulo'
+,p_heading_alignment=>'CENTER'
+,p_display_sequence=>100
+,p_value_alignment=>'CENTER'
+,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
+  'trim_spaces', 'BOTH')).to_clob
+,p_is_required=>false
+,p_enable_filter=>true
+,p_filter_operators=>'C:S:CASE_INSENSITIVE:REGEXP'
+,p_filter_is_required=>false
+,p_filter_text_case=>'MIXED'
+,p_filter_exact_match=>true
+,p_filter_lov_type=>'DISTINCT'
+,p_static_id=>'TIPO_ARTICULO'
+,p_use_as_row_header=>false
+,p_enable_sort_group=>true
+,p_enable_control_break=>true
+,p_enable_hide=>true
+,p_is_primary_key=>false
 ,p_include_in_export=>true
 );
 wwv_flow_imp_page.create_interactive_grid(
@@ -346,6 +409,9 @@ wwv_flow_imp_page.create_interactive_grid(
 ,p_internal_uid=>49561060713295799
 ,p_is_editable=>true
 ,p_edit_operations=>'i:u:d'
+,p_add_authorization_scheme=>wwv_flow_imp.id(51133731304940591)
+,p_update_authorization_scheme=>wwv_flow_imp.id(51133591022939758)
+,p_delete_authorization_scheme=>wwv_flow_imp.id(51133953034941885)
 ,p_lost_update_check_type=>'VALUES'
 ,p_add_row_if_empty=>true
 ,p_submit_checked_rows=>false
@@ -448,17 +514,32 @@ wwv_flow_imp_page.create_ig_report_column(
 ,p_is_visible=>true
 ,p_is_frozen=>false
 );
+wwv_flow_imp_page.create_ig_report_column(
+ p_id=>wwv_flow_imp.id(50938640893470012)
+,p_view_id=>wwv_flow_imp.id(49561697090295800)
+,p_display_seq=>8
+,p_column_id=>wwv_flow_imp.id(49574005355327012)
+,p_is_visible=>true
+,p_is_frozen=>false
+);
 wwv_flow_imp_page.create_page_plug(
  p_id=>wwv_flow_imp.id(49572967091327001)
 ,p_plug_name=>'Costos Operativos (Opcional)'
+,p_region_name=>'REG_COSTOS'
 ,p_region_template_options=>'#DEFAULT#:t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc'
 ,p_component_template_options=>'#DEFAULT#'
 ,p_plug_template=>2100526641005906379
 ,p_plug_display_sequence=>40
-,p_query_type=>'TABLE'
-,p_query_table=>'DET_RECETA_PRODUCCION_OPE'
-,p_query_where=>'REC_ID_RECETA = :P170_ID_RECETA'
-,p_include_rowid_column=>false
+,p_query_type=>'SQL'
+,p_plug_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'select ID_DET_RECETA_OPE,',
+'       REC_ID_RECETA,',
+'       DESCRIPCION,',
+'       TIPO_COSTO,',
+'       COSTO_ESTIMADO,',
+'       ESTADO',
+'  from DET_RECETA_PRODUCCION_OPE',
+' where REC_ID_RECETA = :P170_ID_RECETA'))
 ,p_plug_source_type=>'NATIVE_IG'
 ,p_ajax_items_to_submit=>'P170_ID_RECETA'
 ,p_plug_display_condition_type=>'ITEM_IS_NOT_NULL'
@@ -490,6 +571,7 @@ wwv_flow_imp_page.create_page_plug(
 ,p_prn_page_header_alignment=>'CENTER'
 ,p_prn_page_footer_alignment=>'CENTER'
 ,p_prn_border_color=>'#666666'
+,p_plug_header=>'Costos Operativos (Opcional)'
 );
 wwv_flow_imp_page.create_region_column(
  p_id=>wwv_flow_imp.id(49573127361327003)
@@ -537,8 +619,8 @@ wwv_flow_imp_page.create_region_column(
 ,p_data_type=>'VARCHAR2'
 ,p_is_query_only=>false
 ,p_item_type=>'NATIVE_TEXT_FIELD'
-,p_heading=>'Descripcion'
-,p_heading_alignment=>'LEFT'
+,p_heading=>unistr('Descripci\00F3n')
+,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>50
 ,p_value_alignment=>'LEFT'
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
@@ -567,8 +649,8 @@ wwv_flow_imp_page.create_region_column(
 ,p_data_type=>'VARCHAR2'
 ,p_is_query_only=>false
 ,p_item_type=>'NATIVE_SELECT_LIST'
-,p_heading=>'Tipo Costo'
-,p_heading_alignment=>'LEFT'
+,p_heading=>'Tipo costo'
+,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>60
 ,p_value_alignment=>'LEFT'
 ,p_is_required=>true
@@ -598,14 +680,14 @@ wwv_flow_imp_page.create_region_column(
 ,p_data_type=>'NUMBER'
 ,p_is_query_only=>false
 ,p_item_type=>'NATIVE_NUMBER_FIELD'
-,p_heading=>'Costo Estimado'
-,p_heading_alignment=>'RIGHT'
+,p_heading=>'Costo estimado (Gs.)'
+,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>70
 ,p_value_alignment=>'RIGHT'
-,p_format_mask=>'999G999G999G999G990D00'
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
   'number_alignment', 'left',
   'virtual_keyboard', 'decimal')).to_clob
+,p_format_mask=>'999G999G999G999G990D00'
 ,p_is_required=>true
 ,p_enable_filter=>true
 ,p_filter_is_required=>false
@@ -627,14 +709,14 @@ wwv_flow_imp_page.create_region_column(
 ,p_is_query_only=>false
 ,p_item_type=>'NATIVE_SELECT_LIST'
 ,p_heading=>'Estado'
-,p_heading_alignment=>'LEFT'
+,p_heading_alignment=>'CENTER'
 ,p_display_sequence=>80
-,p_value_alignment=>'LEFT'
+,p_value_alignment=>'CENTER'
 ,p_is_required=>true
 ,p_lov_type=>'SHARED'
 ,p_lov_id=>wwv_flow_imp.id(89273472179480473)
-,p_lov_display_extra=>true
-,p_lov_display_null=>true
+,p_lov_display_extra=>false
+,p_lov_display_null=>false
 ,p_enable_filter=>true
 ,p_filter_operators=>'C:S:CASE_INSENSITIVE:REGEXP'
 ,p_filter_is_required=>false
@@ -646,30 +728,39 @@ wwv_flow_imp_page.create_region_column(
 ,p_enable_control_break=>true
 ,p_enable_hide=>true
 ,p_is_primary_key=>false
+,p_default_type=>'STATIC'
+,p_default_expression=>'ACTIVO'
 ,p_duplicate_value=>true
 ,p_include_in_export=>true
 );
 wwv_flow_imp_page.create_region_column(
  p_id=>wwv_flow_imp.id(49573718603327009)
 ,p_name=>'APEX$ROW_ACTION'
+,p_session_state_data_type=>'VARCHAR2'
 ,p_item_type=>'NATIVE_ROW_ACTION'
 ,p_display_sequence=>20
+,p_use_as_row_header=>false
 );
 wwv_flow_imp_page.create_region_column(
  p_id=>wwv_flow_imp.id(49573869627327010)
 ,p_name=>'APEX$ROW_SELECTOR'
+,p_session_state_data_type=>'VARCHAR2'
 ,p_item_type=>'NATIVE_ROW_SELECTOR'
 ,p_display_sequence=>10
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
   'enable_multi_select', 'Y',
   'hide_control', 'N',
   'show_select_all', 'Y')).to_clob
+,p_use_as_row_header=>false
 );
 wwv_flow_imp_page.create_interactive_grid(
  p_id=>wwv_flow_imp.id(49573067704327002)
 ,p_internal_uid=>49573067704327002
 ,p_is_editable=>true
 ,p_edit_operations=>'i:u:d'
+,p_add_authorization_scheme=>wwv_flow_imp.id(51133731304940591)
+,p_update_authorization_scheme=>wwv_flow_imp.id(51133591022939758)
+,p_delete_authorization_scheme=>wwv_flow_imp.id(51133953034941885)
 ,p_lost_update_check_type=>'VALUES'
 ,p_add_row_if_empty=>true
 ,p_submit_checked_rows=>false
@@ -680,6 +771,7 @@ wwv_flow_imp_page.create_interactive_grid(
 ,p_pagination_type=>'SCROLL'
 ,p_show_total_row_count=>true
 ,p_show_toolbar=>true
+,p_toolbar_buttons=>'SEARCH_COLUMN:SEARCH_FIELD:ACTIONS_MENU:RESET'
 ,p_enable_save_public_report=>false
 ,p_enable_subscriptions=>true
 ,p_enable_flashback=>true
@@ -777,6 +869,7 @@ wwv_flow_imp_page.create_page_button(
 ,p_button_position=>'CHANGE'
 ,p_button_condition=>'P170_ID_RECETA'
 ,p_button_condition_type=>'ITEM_IS_NOT_NULL'
+,p_security_scheme=>wwv_flow_imp.id(51133591022939758)
 ,p_database_action=>'UPDATE'
 );
 wwv_flow_imp_page.create_page_button(
@@ -789,7 +882,7 @@ wwv_flow_imp_page.create_page_button(
 ,p_button_template_id=>2082829544945815391
 ,p_button_image_alt=>'Retornar'
 ,p_button_position=>'CLOSE'
-,p_button_redirect_url=>'f?p=&APP_ID.:169:&APP_SESSION.::&DEBUG.:::'
+,p_button_redirect_url=>'f?p=&APP_ID.:168:&SESSION.::&DEBUG.:::'
 ,p_icon_css_classes=>'fa-arrow-circle-left'
 );
 wwv_flow_imp_page.create_page_button(
@@ -805,6 +898,7 @@ wwv_flow_imp_page.create_page_button(
 ,p_button_position=>'CREATE'
 ,p_button_condition=>'P170_ID_RECETA'
 ,p_button_condition_type=>'ITEM_IS_NULL'
+,p_security_scheme=>wwv_flow_imp.id(51133731304940591)
 ,p_database_action=>'INSERT'
 );
 wwv_flow_imp_page.create_page_button(
@@ -822,62 +916,18 @@ wwv_flow_imp_page.create_page_button(
 ,p_confirm_style=>'danger'
 ,p_button_condition=>'P170_ID_RECETA'
 ,p_button_condition_type=>'ITEM_IS_NOT_NULL'
+,p_security_scheme=>wwv_flow_imp.id(51133953034941885)
 ,p_database_action=>'DELETE'
 );
-wwv_flow_imp_page.create_page_button(
- p_id=>wwv_flow_imp.id(49551841996295531)
-,p_button_sequence=>60
-,p_button_plug_id=>wwv_flow_imp.id(49541977427295516)
-,p_button_name=>'GET_NEXT_ID_RECETA'
-,p_button_action=>'SUBMIT'
-,p_button_template_options=>'#DEFAULT#'
-,p_button_template_id=>2349107722467437027
-,p_button_image_alt=>'Next'
-,p_button_position=>'NEXT'
-,p_button_condition=>'P170_ID_RECETA_NEXT'
-,p_button_condition_type=>'ITEM_IS_NOT_NULL'
-,p_icon_css_classes=>'fa-chevron-right'
-,p_button_comment=>'This button is needed for Get Next or Previous Primary Key Value process.'
-);
-wwv_flow_imp_page.create_page_button(
- p_id=>wwv_flow_imp.id(49551736278295531)
-,p_button_sequence=>50
-,p_button_plug_id=>wwv_flow_imp.id(49541977427295516)
-,p_button_name=>'GET_PREVIOUS_ID_RECETA'
-,p_button_action=>'SUBMIT'
-,p_button_template_options=>'#DEFAULT#'
-,p_button_template_id=>2349107722467437027
-,p_button_image_alt=>'Previous'
-,p_button_position=>'PREVIOUS'
-,p_button_condition=>'P170_ID_RECETA_PREV'
-,p_button_condition_type=>'ITEM_IS_NOT_NULL'
-,p_icon_css_classes=>'fa-chevron-left'
-,p_button_comment=>'This button is needed for Get Next or Previous Primary Key Value process.'
-);
 wwv_flow_imp_page.create_page_branch(
- p_id=>wwv_flow_imp.id(49552604411295532)
-,p_branch_action=>'f?p=&APP_ID.:170:&APP_SESSION.::&DEBUG.::P170_ID_RECETA:&P170_ID_RECETA_NEXT.'
+ p_id=>wwv_flow_imp.id(49574321995327015)
+,p_branch_name=>'Aplica cambios'
+,p_branch_action=>'f?p=&APP_ID.:170:&SESSION.::&DEBUG.::P170_ID_RECETA:&P170_ID_RECETA.&success_msg=#SUCCESS_MSG#'
 ,p_branch_point=>'AFTER_PROCESSING'
 ,p_branch_type=>'REDIRECT_URL'
-,p_branch_when_button_id=>wwv_flow_imp.id(49551841996295531)
-,p_branch_sequence=>1
-,p_branch_comment=>'This button is needed for Get Next or Previous Primary Key Value process.'
-);
-wwv_flow_imp_page.create_page_branch(
- p_id=>wwv_flow_imp.id(49553065533295532)
-,p_branch_action=>'f?p=&APP_ID.:170:&APP_SESSION.::&DEBUG.::P170_ID_RECETA:&P170_ID_RECETA_PREV.'
-,p_branch_point=>'AFTER_PROCESSING'
-,p_branch_type=>'REDIRECT_URL'
-,p_branch_when_button_id=>wwv_flow_imp.id(49551736278295531)
-,p_branch_sequence=>1
-,p_branch_comment=>'This button is needed for Get Next or Previous Primary Key Value process.'
-);
-wwv_flow_imp_page.create_page_branch(
- p_id=>wwv_flow_imp.id(49553370005295532)
-,p_branch_action=>'f?p=&APP_ID.:169:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
-,p_branch_point=>'AFTER_PROCESSING'
-,p_branch_type=>'REDIRECT_URL'
-,p_branch_sequence=>1
+,p_branch_sequence=>10
+,p_branch_condition_type=>'REQUEST_EQUALS_CONDITION'
+,p_branch_condition=>'SAVE'
 );
 wwv_flow_imp_page.create_page_item(
  p_id=>wwv_flow_imp.id(49542319425295516)
@@ -964,17 +1014,18 @@ wwv_flow_imp_page.create_page_item(
 ,p_prompt=>unistr('Descripci\00F3n')
 ,p_source=>'DESCRIPCION_RECETA'
 ,p_source_type=>'REGION_SOURCE_COLUMN'
-,p_display_as=>'NATIVE_TEXT_FIELD'
+,p_display_as=>'NATIVE_TEXTAREA'
 ,p_cSize=>60
 ,p_cMaxlength=>200
+,p_cHeight=>1
 ,p_begin_on_new_line=>'N'
 ,p_field_template=>1609122147107268652
 ,p_item_template_options=>'#DEFAULT#'
 ,p_is_persistent=>'N'
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
-  'disabled', 'N',
-  'submit_when_enter_pressed', 'N',
-  'subtype', 'TEXT',
+  'auto_height', 'N',
+  'character_counter', 'N',
+  'resizable', 'Y',
   'trim_spaces', 'BOTH')).to_clob
 );
 wwv_flow_imp_page.create_page_item(
@@ -992,11 +1043,12 @@ wwv_flow_imp_page.create_page_item(
 ,p_display_as=>'NATIVE_NUMBER_FIELD'
 ,p_cSize=>32
 ,p_cMaxlength=>255
-,p_field_template=>1609122147107268652
+,p_colspan=>2
+,p_field_template=>1609121967514267634
 ,p_item_template_options=>'#DEFAULT#'
 ,p_is_persistent=>'N'
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
-  'number_alignment', 'left',
+  'number_alignment', 'right',
   'virtual_keyboard', 'decimal')).to_clob
 );
 wwv_flow_imp_page.create_page_item(
@@ -1020,7 +1072,8 @@ wwv_flow_imp_page.create_page_item(
 ,p_lov_display_null=>'YES'
 ,p_cHeight=>1
 ,p_begin_on_new_line=>'N'
-,p_field_template=>1609122147107268652
+,p_colspan=>3
+,p_field_template=>1609121967514267634
 ,p_item_template_options=>'#DEFAULT#'
 ,p_is_persistent=>'N'
 ,p_lov_display_extra=>'YES'
@@ -1043,7 +1096,9 @@ wwv_flow_imp_page.create_page_item(
 ,p_lov=>'.'||wwv_flow_imp.id(89273472179480473)||'.'
 ,p_lov_display_null=>'YES'
 ,p_cHeight=>1
-,p_field_template=>1609122147107268652
+,p_begin_on_new_line=>'N'
+,p_colspan=>2
+,p_field_template=>1609121967514267634
 ,p_item_template_options=>'#DEFAULT#'
 ,p_is_persistent=>'N'
 ,p_lov_display_extra=>'YES'
@@ -1063,8 +1118,10 @@ wwv_flow_imp_page.create_page_item(
 ,p_display_as=>'NATIVE_TEXT_FIELD'
 ,p_cSize=>32
 ,p_cMaxlength=>20
+,p_tag_attributes=>'tabindex="-1"'
 ,p_begin_on_new_line=>'N'
 ,p_field_template=>1609121967514267634
+,p_item_css_classes=>'apex_disabled'
 ,p_item_template_options=>'#DEFAULT#'
 ,p_is_persistent=>'N'
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
@@ -1084,34 +1141,21 @@ wwv_flow_imp_page.create_page_item(
 ,p_format_mask=>'DD-MM-YYYY HH24:MI'
 ,p_source=>'FECHA_REGISTRO'
 ,p_source_type=>'REGION_SOURCE_COLUMN'
-,p_display_as=>'NATIVE_DATE_PICKER_APEX'
+,p_display_as=>'NATIVE_TEXT_FIELD'
 ,p_cSize=>32
 ,p_cMaxlength=>255
+,p_tag_attributes=>'tabindex="-1"'
 ,p_begin_on_new_line=>'N'
+,p_colspan=>2
 ,p_field_template=>1609121967514267634
+,p_item_css_classes=>'apex_disabled'
 ,p_item_template_options=>'#DEFAULT#'
 ,p_is_persistent=>'N'
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
-  'display_as', 'POPUP',
-  'max_date', 'NONE',
-  'min_date', 'NONE',
-  'multiple_months', 'N',
-  'show_time', 'N',
-  'use_defaults', 'Y')).to_clob
-);
-wwv_flow_imp_page.create_page_item(
- p_id=>wwv_flow_imp.id(49549769589295529)
-,p_name=>'P170_ID_RECETA_COUNT'
-,p_item_sequence=>110
-,p_item_plug_id=>wwv_flow_imp.id(49541977427295516)
-,p_display_as=>'NATIVE_DISPLAY_ONLY'
-,p_cSize=>30
-,p_tag_attributes=>'class="fielddata"'
-,p_is_persistent=>'N'
-,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
-  'based_on', 'VALUE',
-  'send_on_page_submit', 'N')).to_clob
-,p_item_comment=>'This item is needed for Get Next or Previous Primary Key Value process.'
+  'disabled', 'N',
+  'submit_when_enter_pressed', 'N',
+  'subtype', 'TEXT',
+  'trim_spaces', 'BOTH')).to_clob
 );
 wwv_flow_imp_page.create_page_process(
  p_id=>wwv_flow_imp.id(49554224205295533)
@@ -1162,9 +1206,6 @@ wwv_flow_imp_page.create_page_process(
 ,p_region_id=>wwv_flow_imp.id(49541977427295516)
 ,p_process_type=>'NATIVE_FORM_INIT'
 ,p_process_name=>'Initialize form Form on CAB_RECETA_PRODUCCION'
-,p_attribute_01=>'P170_ID_RECETA_NEXT'
-,p_attribute_02=>'P170_ID_RECETA_PREV'
-,p_attribute_03=>'P170_ID_RECETA_COUNT'
 ,p_internal_uid=>49553875030295533
 );
 end;
