@@ -1,0 +1,231 @@
+prompt --application/shared_components/data_loads/listado_de_licitaciones
+begin
+--   Manifest
+--     DATA LOAD: Listado de licitaciones
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.14'
+,p_default_workspace_id=>14331749518156511
+,p_default_application_id=>100
+,p_default_id_offset=>14532183965285249
+,p_default_owner=>'SALOTEX'
+);
+wwv_flow_imp_shared.create_data_profile(
+ p_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'Listado de licitaciones'
+,p_format=>'CSV'
+,p_encoding=>'iso-8859-1'
+,p_csv_enclosed=>'"'
+,p_has_header_row=>true
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15945385419750671)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C001'
+,p_sequence=>1
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'PLANIFICACION_SLUG'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15945619972750672)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C002'
+,p_sequence=>2
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'CONVOCATORIA_SLUG'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15945978682750672)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C003'
+,p_sequence=>3
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'ADJUDICACION_SLUG'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15946250252750673)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C004'
+,p_sequence=>4
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'PRECALIFICACION_SLUG'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15946554026750673)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C005'
+,p_sequence=>5
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'CONVENIO_SLUG'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15946812031750673)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C006'
+,p_sequence=>6
+,p_is_primary_key=>true
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'NRO_LICITACION'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15947137811750673)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C007'
+,p_sequence=>7
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>1000
+,p_has_time_zone=>true
+,p_selector_type=>'NAME'
+,p_selector=>'NOMBRE_LICITACION'
+,p_expression1=>unistr('\00C3\00B3')
+,p_expression2=>'o'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15947464740750673)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C008'
+,p_sequence=>8
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>1000
+,p_has_time_zone=>true
+,p_selector_type=>'NAME'
+,p_selector=>'TIPO_PROCEDIMIENTO'
+,p_expression1=>unistr('\00C3\00B3 \00C3\00BA')
+,p_expression2=>'o u'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15947798575750673)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C009'
+,p_sequence=>9
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'CATEGORIA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15948007186750673)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C010'
+,p_sequence=>10
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'CONVOCANTE'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15948326408750673)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C011'
+,p_sequence=>11
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'C_ETAPA_LICITACION'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15948657776750673)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C012'
+,p_sequence=>12
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'ETAPA_LICITACION'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15948906732750674)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C013'
+,p_sequence=>13
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'FECHA_ENTREGA_OFERTA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15949229868750674)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C014'
+,p_sequence=>14
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'TIPO_LICITACION'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15949591811750674)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C015'
+,p_sequence=>15
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'FECHA_ESTIMADA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15949839204750674)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C016'
+,p_sequence=>16
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'FECHA_PUBLICACION_CONVOCATORIA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(15950120444750674)
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_name=>'C017'
+,p_sequence=>17
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'GEO'
+);
+wwv_flow_imp_shared.create_load_table(
+ p_id=>wwv_flow_imp.id(15950340700750674)
+,p_name=>'Listado de licitaciones'
+,p_static_id=>'listado_de_licitaciones'
+,p_target_type=>'COLLECTION'
+,p_collection_name=>'coll_importar_licitaciones'
+,p_data_profile_id=>wwv_flow_imp.id(15945061246750629)
+,p_loading_method=>'REPLACE'
+,p_commit_interval=>200
+,p_error_handling=>'ABORT'
+,p_skip_validation=>'N'
+,p_version_scn=>41734054825356
+);
+wwv_flow_imp.component_end;
+end;
+/

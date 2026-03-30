@@ -1,0 +1,321 @@
+prompt --application/pages/page_00042
+begin
+--   Manifest
+--     PAGE: 00042
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.14'
+,p_default_workspace_id=>14331749518156511
+,p_default_application_id=>100
+,p_default_id_offset=>14532183965285249
+,p_default_owner=>'SALOTEX'
+);
+wwv_flow_imp_page.create_page(
+ p_id=>42
+,p_name=>'Solicitud de vacaciones'
+,p_alias=>'SOLICITUD-DE-VACACIONES'
+,p_step_title=>'Solicitud de vacaciones'
+,p_autocomplete_on_off=>'OFF'
+,p_page_template_options=>'#DEFAULT#'
+,p_protection_level=>'C'
+,p_page_component_map=>'18'
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(84834359710482006)
+,p_plug_name=>'Report 1'
+,p_region_template_options=>'#DEFAULT#'
+,p_plug_template=>2100526641005906379
+,p_plug_display_sequence=>10
+,p_query_type=>'TABLE'
+,p_query_table=>'SOLICITUD_VACACIONES'
+,p_include_rowid_column=>false
+,p_plug_source_type=>'NATIVE_IR'
+,p_prn_content_disposition=>'ATTACHMENT'
+,p_prn_page_header=>'Report 1'
+);
+wwv_flow_imp_page.create_worksheet(
+ p_id=>wwv_flow_imp.id(84834741015482006)
+,p_name=>'Report 1'
+,p_max_row_count_message=>'The maximum row count for this report is #MAX_ROW_COUNT# rows.  Please apply a filter to reduce the number of records in your query.'
+,p_no_data_found_message=>'No se encuentran datos.'
+,p_pagination_type=>'ROWS_X_TO_Y'
+,p_pagination_display_pos=>'BOTTOM_RIGHT'
+,p_report_list_mode=>'TABS'
+,p_lazy_loading=>false
+,p_show_detail_link=>'C'
+,p_download_formats=>'CSV:HTML:XLSX:PDF'
+,p_enable_mail_download=>'Y'
+,p_detail_link=>'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:RP:P43_ID_SOLICITUD_VACACIONES:\#ID_SOLICITUD_VACACIONES#\'
+,p_detail_link_text=>'<span aria-label="Editar"><span class="fa fa-edit" aria-hidden="true" title="Editar"></span></span>'
+,p_owner=>'JAVIER'
+,p_internal_uid=>11101721951475266
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84834867394482006)
+,p_db_column_name=>'ID_SOLICITUD_VACACIONES'
+,p_display_order=>1
+,p_column_identifier=>'A'
+,p_column_label=>'Id Solicitud Vacaciones'
+,p_column_type=>'NUMBER'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84835242553482007)
+,p_db_column_name=>'FECHA_GUARDADO'
+,p_display_order=>2
+,p_column_identifier=>'B'
+,p_column_label=>'Fecha Guardado'
+,p_column_type=>'DATE'
+,p_column_alignment=>'CENTER'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84835673206482007)
+,p_db_column_name=>'FECHA_SOLICITUD'
+,p_display_order=>3
+,p_column_identifier=>'C'
+,p_column_label=>'Fecha Solicitud'
+,p_column_type=>'DATE'
+,p_column_alignment=>'CENTER'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84836041509482010)
+,p_db_column_name=>'COL_ID_COLABORADOR'
+,p_display_order=>4
+,p_column_identifier=>'D'
+,p_column_label=>'Col Id Colaborador'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84836452514482010)
+,p_db_column_name=>'DEP_ID_DEPARTAMENTO'
+,p_display_order=>5
+,p_column_identifier=>'E'
+,p_column_label=>'Dep Id Departamento'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84836826484482010)
+,p_db_column_name=>'SEC_ID_SECCION'
+,p_display_order=>6
+,p_column_identifier=>'F'
+,p_column_label=>'Sec Id Seccion'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84837308290482010)
+,p_db_column_name=>'ESTADO'
+,p_display_order=>7
+,p_column_identifier=>'G'
+,p_column_label=>'Estado'
+,p_column_type=>'STRING'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84837672009482011)
+,p_db_column_name=>'PER_ID_PERIODO'
+,p_display_order=>8
+,p_column_identifier=>'H'
+,p_column_label=>'Per Id Periodo'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84838035823482011)
+,p_db_column_name=>'HABILES_PENDIENTES'
+,p_display_order=>9
+,p_column_identifier=>'I'
+,p_column_label=>'Habiles Pendientes'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84838476895482011)
+,p_db_column_name=>'HABILES_SOLICITADOS'
+,p_display_order=>10
+,p_column_identifier=>'J'
+,p_column_label=>'Habiles Solicitados'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84838871269482011)
+,p_db_column_name=>'FECHA_DESDE'
+,p_display_order=>11
+,p_column_identifier=>'K'
+,p_column_label=>'Fecha Desde'
+,p_column_type=>'DATE'
+,p_column_alignment=>'CENTER'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84839263952482011)
+,p_db_column_name=>'FECHA_HASTA'
+,p_display_order=>12
+,p_column_identifier=>'L'
+,p_column_label=>'Fecha Hasta'
+,p_column_type=>'DATE'
+,p_column_alignment=>'CENTER'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84839673279482012)
+,p_db_column_name=>'COD_REEMPLAZANTE'
+,p_display_order=>13
+,p_column_identifier=>'M'
+,p_column_label=>'Cod Reemplazante'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84840079074482012)
+,p_db_column_name=>'OBSERVACION'
+,p_display_order=>14
+,p_column_identifier=>'N'
+,p_column_label=>'Observacion'
+,p_column_type=>'STRING'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84840497979482012)
+,p_db_column_name=>'JEF_ID_JEFE'
+,p_display_order=>15
+,p_column_identifier=>'O'
+,p_column_label=>'Jef Id Jefe'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84840860654482012)
+,p_db_column_name=>'GER_ID_GERENTE'
+,p_display_order=>16
+,p_column_identifier=>'P'
+,p_column_label=>'Ger Id Gerente'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84841227176482012)
+,p_db_column_name=>'RH_ID_RRHH'
+,p_display_order=>17
+,p_column_identifier=>'Q'
+,p_column_label=>'Rh Id Rrhh'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(84841690156482013)
+,p_db_column_name=>'PRE_ID_PRESIDENCIA'
+,p_display_order=>18
+,p_column_identifier=>'R'
+,p_column_label=>'Pre Id Presidencia'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_rpt(
+ p_id=>wwv_flow_imp.id(84845498412482671)
+,p_application_user=>'APXWS_DEFAULT'
+,p_report_seq=>10
+,p_report_alias=>'111125'
+,p_status=>'PUBLIC'
+,p_is_default=>'Y'
+,p_report_columns=>'ID_SOLICITUD_VACACIONES:FECHA_GUARDADO:FECHA_SOLICITUD:COL_ID_COLABORADOR:DEP_ID_DEPARTAMENTO:SEC_ID_SECCION:ESTADO:PER_ID_PERIODO:HABILES_PENDIENTES:HABILES_SOLICITADOS:FECHA_DESDE:FECHA_HASTA:COD_REEMPLAZANTE:OBSERVACION:JEF_ID_JEFE:GER_ID_GERENTE:'
+||'RH_ID_RRHH:PRE_ID_PRESIDENCIA'
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(84843890870482020)
+,p_plug_name=>'Breadcrumb'
+,p_region_template_options=>'#DEFAULT#:t-BreadcrumbRegion--useBreadcrumbTitle'
+,p_component_template_options=>'#DEFAULT#'
+,p_plug_template=>2531463326621247859
+,p_plug_display_sequence=>10
+,p_plug_display_point=>'REGION_POSITION_01'
+,p_menu_id=>wwv_flow_imp.id(86947038457749062)
+,p_plug_source_type=>'NATIVE_BREADCRUMB'
+,p_menu_template_id=>4072363345357175094
+);
+wwv_flow_imp_page.create_page_button(
+ p_id=>wwv_flow_imp.id(84845055922482021)
+,p_button_sequence=>30
+,p_button_plug_id=>wwv_flow_imp.id(84834359710482006)
+,p_button_name=>'CREATE'
+,p_button_action=>'REDIRECT_PAGE'
+,p_button_template_options=>'#DEFAULT#'
+,p_button_template_id=>4072362960822175091
+,p_button_is_hot=>'Y'
+,p_button_image_alt=>'Crear solicitud'
+,p_button_position=>'RIGHT_OF_IR_SEARCH_BAR'
+,p_button_alignment=>'RIGHT'
+,p_button_redirect_url=>'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:43'
+,p_security_scheme=>wwv_flow_imp.id(86641246456047417)
+);
+wwv_flow_imp_page.create_page_da_event(
+ p_id=>wwv_flow_imp.id(84842779476482018)
+,p_name=>'Edit Report - Dialog Closed'
+,p_event_sequence=>10
+,p_triggering_element_type=>'REGION'
+,p_triggering_region_id=>wwv_flow_imp.id(84834359710482006)
+,p_bind_type=>'bind'
+,p_execution_type=>'IMMEDIATE'
+,p_bind_event_type=>'apexafterclosedialog'
+);
+wwv_flow_imp_page.create_page_da_action(
+ p_id=>wwv_flow_imp.id(84843301354482019)
+,p_event_id=>wwv_flow_imp.id(84842779476482018)
+,p_event_result=>'TRUE'
+,p_action_sequence=>10
+,p_execute_on_page_init=>'N'
+,p_action=>'NATIVE_REFRESH'
+,p_affected_elements_type=>'REGION'
+,p_affected_region_id=>wwv_flow_imp.id(84834359710482006)
+,p_attribute_01=>'N'
+);
+wwv_flow_imp.component_end;
+end;
+/

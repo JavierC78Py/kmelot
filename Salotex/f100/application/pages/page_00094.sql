@@ -1,0 +1,265 @@
+prompt --application/pages/page_00094
+begin
+--   Manifest
+--     PAGE: 00094
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.14'
+,p_default_workspace_id=>14331749518156511
+,p_default_application_id=>100
+,p_default_id_offset=>14532183965285249
+,p_default_owner=>'SALOTEX'
+);
+wwv_flow_imp_page.create_page(
+ p_id=>94
+,p_name=>'Pedido de venta'
+,p_alias=>'PEDIDO-DE-VENTA'
+,p_step_title=>'Pedido de venta'
+,p_autocomplete_on_off=>'OFF'
+,p_page_template_options=>'#DEFAULT#'
+,p_protection_level=>'C'
+,p_page_component_map=>'18'
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(98758917005574761)
+,p_plug_name=>'Pedido de venta'
+,p_region_template_options=>'#DEFAULT#'
+,p_plug_template=>2100526641005906379
+,p_plug_display_sequence=>10
+,p_query_type=>'TABLE'
+,p_query_table=>'CAB_PEDIDO_VENTA'
+,p_include_rowid_column=>false
+,p_plug_source_type=>'NATIVE_IR'
+,p_prn_page_header=>'Pedido de venta'
+);
+wwv_flow_imp_page.create_worksheet(
+ p_id=>wwv_flow_imp.id(98758926930574761)
+,p_name=>'Pedido de venta'
+,p_max_row_count_message=>'The maximum row count for this report is #MAX_ROW_COUNT# rows.  Please apply a filter to reduce the number of records in your query.'
+,p_no_data_found_message=>'No se encuentran datos.'
+,p_pagination_type=>'ROWS_X_TO_Y'
+,p_pagination_display_pos=>'BOTTOM_RIGHT'
+,p_report_list_mode=>'TABS'
+,p_lazy_loading=>false
+,p_show_detail_link=>'C'
+,p_show_notify=>'Y'
+,p_download_formats=>'CSV:HTML:XLSX:PDF'
+,p_enable_mail_download=>'Y'
+,p_detail_link=>'f?p=&APP_ID.:95:&APP_SESSION.::&DEBUG.:RP:P95_ID_PEDIDO:\#ID_PEDIDO#\'
+,p_detail_link_text=>'<span role="img" aria-label="Editar"><span class="fa fa-edit" aria-hidden="true" title="Editar"></span></span>'
+,p_owner=>'JAVIER'
+,p_internal_uid=>25025907866568021
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98759413471574767)
+,p_db_column_name=>'ID_PEDIDO'
+,p_display_order=>0
+,p_is_primary_key=>'Y'
+,p_column_identifier=>'A'
+,p_column_label=>'Id Pedido'
+,p_column_type=>'NUMBER'
+,p_display_text_as=>'HIDDEN_ESCAPE_SC'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98759783171574775)
+,p_db_column_name=>'FECHA_PEDIDO'
+,p_display_order=>2
+,p_column_identifier=>'B'
+,p_column_label=>'Fecha Pedido'
+,p_column_type=>'DATE'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98760195371574775)
+,p_db_column_name=>'USU_ID_USUARIO'
+,p_display_order=>3
+,p_column_identifier=>'C'
+,p_column_label=>'Usu Id Usuario'
+,p_column_type=>'STRING'
+,p_display_text_as=>'LOV_ESCAPE_SC'
+,p_heading_alignment=>'LEFT'
+,p_rpt_named_lov=>wwv_flow_imp.id(83050876087485807)
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98760567159574777)
+,p_db_column_name=>'ENT_ID_ENTIDAD'
+,p_display_order=>4
+,p_column_identifier=>'D'
+,p_column_label=>'Ent Id Entidad'
+,p_column_type=>'STRING'
+,p_display_text_as=>'LOV_ESCAPE_SC'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_rpt_named_lov=>wwv_flow_imp.id(90258037866810503)
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98760965634574777)
+,p_db_column_name=>'FOR_ID_FORMA_PAGO'
+,p_display_order=>5
+,p_column_identifier=>'E'
+,p_column_label=>'For Id Forma Pago'
+,p_column_type=>'STRING'
+,p_display_text_as=>'LOV_ESCAPE_SC'
+,p_heading_alignment=>'LEFT'
+,p_rpt_named_lov=>wwv_flow_imp.id(89376587479704011)
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98761402214574777)
+,p_db_column_name=>'QR'
+,p_display_order=>6
+,p_column_identifier=>'F'
+,p_column_label=>'Qr'
+,p_column_type=>'STRING'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98761810980574778)
+,p_db_column_name=>'TELEFONO'
+,p_display_order=>7
+,p_column_identifier=>'G'
+,p_column_label=>'Telefono'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98762124345574778)
+,p_db_column_name=>'FECHA_ENTREGA_DESDE'
+,p_display_order=>8
+,p_column_identifier=>'H'
+,p_column_label=>'Fecha Entrega Desde'
+,p_column_type=>'DATE'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98762612536574778)
+,p_db_column_name=>'FECHA_ENTREGA_HASTA'
+,p_display_order=>9
+,p_column_identifier=>'I'
+,p_column_label=>'Fecha Entrega Hasta'
+,p_column_type=>'DATE'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98762993233574778)
+,p_db_column_name=>'MON_ID_MONEDA'
+,p_display_order=>10
+,p_column_identifier=>'J'
+,p_column_label=>'Mon Id Moneda'
+,p_column_type=>'STRING'
+,p_display_text_as=>'LOV_ESCAPE_SC'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_rpt_named_lov=>wwv_flow_imp.id(84541326864380916)
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98763336793574778)
+,p_db_column_name=>'TIPO_CAMBIO'
+,p_display_order=>11
+,p_column_identifier=>'K'
+,p_column_label=>'Tipo Cambio'
+,p_column_type=>'NUMBER'
+,p_heading_alignment=>'RIGHT'
+,p_column_alignment=>'RIGHT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98763745273574779)
+,p_db_column_name=>'OBSERVACION'
+,p_display_order=>12
+,p_column_identifier=>'L'
+,p_column_label=>'Observacion'
+,p_column_type=>'STRING'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(98764151779574779)
+,p_db_column_name=>'ESTADO'
+,p_display_order=>13
+,p_column_identifier=>'M'
+,p_column_label=>'Estado'
+,p_column_type=>'STRING'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_rpt(
+ p_id=>wwv_flow_imp.id(98767164449576506)
+,p_application_user=>'APXWS_DEFAULT'
+,p_report_seq=>10
+,p_report_alias=>'250342'
+,p_status=>'PUBLIC'
+,p_is_default=>'Y'
+,p_report_columns=>'ID_PEDIDO:FECHA_PEDIDO:USU_ID_USUARIO:ENT_ID_ENTIDAD:FOR_ID_FORMA_PAGO:QR:TELEFONO:FECHA_ENTREGA_DESDE:FECHA_ENTREGA_HASTA:MON_ID_MONEDA:TIPO_CAMBIO:OBSERVACION:ESTADO'
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(98766343020574785)
+,p_plug_name=>'Breadcrumb'
+,p_region_template_options=>'#DEFAULT#:t-BreadcrumbRegion--useBreadcrumbTitle'
+,p_component_template_options=>'#DEFAULT#'
+,p_plug_template=>2531463326621247859
+,p_plug_display_sequence=>10
+,p_plug_display_point=>'REGION_POSITION_01'
+,p_menu_id=>wwv_flow_imp.id(86947038457749062)
+,p_plug_source_type=>'NATIVE_BREADCRUMB'
+,p_menu_template_id=>4072363345357175094
+);
+wwv_flow_imp_page.create_page_button(
+ p_id=>wwv_flow_imp.id(98764687580574780)
+,p_button_sequence=>10
+,p_button_plug_id=>wwv_flow_imp.id(98758917005574761)
+,p_button_name=>'CREATE'
+,p_button_action=>'REDIRECT_PAGE'
+,p_button_template_options=>'#DEFAULT#'
+,p_button_template_id=>4072362960822175091
+,p_button_is_hot=>'Y'
+,p_button_image_alt=>'Crear pedido'
+,p_button_position=>'RIGHT_OF_IR_SEARCH_BAR'
+,p_button_redirect_url=>'f?p=&APP_ID.:95:&APP_SESSION.::&DEBUG.:95::'
+,p_security_scheme=>wwv_flow_imp.id(113303889121561293)
+);
+wwv_flow_imp_page.create_page_da_event(
+ p_id=>wwv_flow_imp.id(98764969721574780)
+,p_name=>'Edit Report - Dialog Closed'
+,p_event_sequence=>10
+,p_triggering_element_type=>'REGION'
+,p_triggering_region_id=>wwv_flow_imp.id(98758917005574761)
+,p_bind_type=>'bind'
+,p_execution_type=>'IMMEDIATE'
+,p_bind_event_type=>'apexafterclosedialog'
+);
+wwv_flow_imp_page.create_page_da_action(
+ p_id=>wwv_flow_imp.id(98765483426574781)
+,p_event_id=>wwv_flow_imp.id(98764969721574780)
+,p_event_result=>'TRUE'
+,p_action_sequence=>10
+,p_execute_on_page_init=>'N'
+,p_action=>'NATIVE_REFRESH'
+,p_affected_elements_type=>'REGION'
+,p_affected_region_id=>wwv_flow_imp.id(98758917005574761)
+,p_attribute_01=>'N'
+);
+wwv_flow_imp.component_end;
+end;
+/

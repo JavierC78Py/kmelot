@@ -1,0 +1,212 @@
+prompt --application/pages/page_00081
+begin
+--   Manifest
+--     PAGE: 00081
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.14'
+,p_default_workspace_id=>14331749518156511
+,p_default_application_id=>100
+,p_default_id_offset=>14532183965285249
+,p_default_owner=>'SALOTEX'
+);
+wwv_flow_imp_page.create_page(
+ p_id=>81
+,p_name=>unistr('Rendici\00F3n de caja')
+,p_alias=>unistr('RENDICI\00D3N-DE-CAJA')
+,p_step_title=>unistr('Rendici\00F3n de caja')
+,p_autocomplete_on_off=>'OFF'
+,p_page_template_options=>'#DEFAULT#'
+,p_protection_level=>'C'
+,p_page_component_map=>'18'
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(89106739741391084)
+,p_plug_name=>unistr('Rendici\00F3n de caja')
+,p_region_template_options=>'#DEFAULT#'
+,p_plug_template=>2100526641005906379
+,p_plug_display_sequence=>10
+,p_plug_grid_column_span=>9
+,p_plug_display_column=>2
+,p_query_type=>'SQL'
+,p_plug_source=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'select ID_RENDICION_CAJA,',
+'       FECHA_DESDE,',
+'       FECHA_HASTA,',
+'       ENT_ID_ENTIDAD,',
+'       SUC_ID_SUCURSAL,',
+'       CASE ESTADO',
+'       WHEN ''ABIERTO'' THEN ',
+'            ''<button type="button" class="t-Button t-Button--simple t-Button--success t-Button--stretch" onclick=""><span class="ESTADO" >ABIERTO</span></button>''',
+'       WHEN ''CERRADO'' THEN ',
+'            ''<button type="button" class="t-Button t-Button--simple t-Button--danger t-Button--stretch" onclick=""><span class="ESTADO" >CERRADO</span></button>''',
+'       END ESTADO',
+'  from RENDICION_CAJA'))
+,p_plug_source_type=>'NATIVE_IR'
+,p_prn_page_header=>unistr('Rendici\00F3n de caja')
+);
+wwv_flow_imp_page.create_worksheet(
+ p_id=>wwv_flow_imp.id(89106858508391084)
+,p_name=>unistr('Rendici\00F3n de caja')
+,p_max_row_count_message=>'The maximum row count for this report is #MAX_ROW_COUNT# rows.  Please apply a filter to reduce the number of records in your query.'
+,p_no_data_found_message=>'No se encuentran datos.'
+,p_pagination_type=>'ROWS_X_TO_Y'
+,p_pagination_display_pos=>'BOTTOM_RIGHT'
+,p_report_list_mode=>'TABS'
+,p_lazy_loading=>false
+,p_show_detail_link=>'C'
+,p_show_notify=>'Y'
+,p_download_formats=>'CSV:HTML:XLSX:PDF'
+,p_enable_mail_download=>'Y'
+,p_detail_link=>'f?p=&APP_ID.:82:&APP_SESSION.::&DEBUG.:RP:P82_ID_RENDICION_CAJA:\#ID_RENDICION_CAJA#\'
+,p_detail_link_text=>'<span aria-label="Editar"><span class="fa fa-edit" aria-hidden="true" title="Editar"></span></span>'
+,p_owner=>'JAVIER'
+,p_internal_uid=>15373839444384344
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(89107228475391084)
+,p_db_column_name=>'ID_RENDICION_CAJA'
+,p_display_order=>0
+,p_column_identifier=>'A'
+,p_column_label=>'Id Rendicion Caja'
+,p_column_type=>'NUMBER'
+,p_display_text_as=>'HIDDEN_ESCAPE_SC'
+,p_heading_alignment=>'LEFT'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(89107704951391087)
+,p_db_column_name=>'FECHA_DESDE'
+,p_display_order=>2
+,p_column_identifier=>'B'
+,p_column_label=>'Desde'
+,p_column_type=>'DATE'
+,p_column_alignment=>'CENTER'
+,p_format_mask=>'DD/MM/YYYY HH24:MI'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(89107964796391087)
+,p_db_column_name=>'FECHA_HASTA'
+,p_display_order=>3
+,p_column_identifier=>'C'
+,p_column_label=>'Hasta'
+,p_column_type=>'DATE'
+,p_column_alignment=>'CENTER'
+,p_format_mask=>'DD/MM/YYYY HH24:MI'
+,p_tz_dependent=>'N'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(89138823625422243)
+,p_db_column_name=>'ENT_ID_ENTIDAD'
+,p_display_order=>13
+,p_column_identifier=>'F'
+,p_column_label=>'Usuario'
+,p_column_type=>'NUMBER'
+,p_display_text_as=>'LOV_ESCAPE_SC'
+,p_column_alignment=>'CENTER'
+,p_rpt_named_lov=>wwv_flow_imp.id(89918895487354677)
+,p_rpt_show_filter_lov=>'1'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(89138999699422244)
+,p_db_column_name=>'SUC_ID_SUCURSAL'
+,p_display_order=>23
+,p_column_identifier=>'G'
+,p_column_label=>'Sucursal'
+,p_column_type=>'NUMBER'
+,p_display_text_as=>'LOV_ESCAPE_SC'
+,p_rpt_named_lov=>wwv_flow_imp.id(90179677127002391)
+,p_rpt_show_filter_lov=>'1'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_column(
+ p_id=>wwv_flow_imp.id(89139071994422245)
+,p_db_column_name=>'ESTADO'
+,p_display_order=>33
+,p_column_identifier=>'H'
+,p_column_label=>'Estado'
+,p_column_type=>'STRING'
+,p_display_text_as=>'WITHOUT_MODIFICATION'
+,p_column_alignment=>'CENTER'
+,p_use_as_row_header=>'N'
+);
+wwv_flow_imp_page.create_worksheet_rpt(
+ p_id=>wwv_flow_imp.id(89113119402402231)
+,p_application_user=>'APXWS_DEFAULT'
+,p_report_seq=>10
+,p_report_type=>'REPORT'
+,p_report_alias=>'153802'
+,p_status=>'PUBLIC'
+,p_is_default=>'Y'
+,p_report_columns=>'ENT_ID_ENTIDAD:SUC_ID_SUCURSAL:ESTADO:FECHA_DESDE:FECHA_HASTA:'
+,p_sort_column_1=>'ESTADO'
+,p_sort_direction_1=>'DESC'
+,p_sort_column_2=>'FECHA_DESDE'
+,p_sort_direction_2=>'ASC'
+,p_sort_column_3=>'0'
+,p_sort_direction_3=>'ASC'
+,p_sort_column_4=>'0'
+,p_sort_direction_4=>'ASC'
+,p_sort_column_5=>'0'
+,p_sort_direction_5=>'ASC'
+,p_sort_column_6=>'0'
+,p_sort_direction_6=>'ASC'
+,p_break_on=>'ESTADO:0:0:0:0:0'
+,p_break_enabled_on=>'ESTADO:0:0:0:0:0'
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(89110948797391091)
+,p_plug_name=>'Breadcrumb'
+,p_region_template_options=>'#DEFAULT#:t-BreadcrumbRegion--useBreadcrumbTitle'
+,p_component_template_options=>'#DEFAULT#'
+,p_plug_template=>2531463326621247859
+,p_plug_display_sequence=>10
+,p_plug_display_point=>'REGION_POSITION_01'
+,p_menu_id=>wwv_flow_imp.id(86947038457749062)
+,p_plug_source_type=>'NATIVE_BREADCRUMB'
+,p_menu_template_id=>4072363345357175094
+);
+wwv_flow_imp_page.create_page_button(
+ p_id=>wwv_flow_imp.id(89109236910391089)
+,p_button_sequence=>10
+,p_button_plug_id=>wwv_flow_imp.id(89106739741391084)
+,p_button_name=>'CREATE'
+,p_button_action=>'REDIRECT_PAGE'
+,p_button_template_options=>'#DEFAULT#'
+,p_button_template_id=>4072362960822175091
+,p_button_is_hot=>'Y'
+,p_button_image_alt=>'Crear apertura de caja'
+,p_button_position=>'RIGHT_OF_IR_SEARCH_BAR'
+,p_button_redirect_url=>'f?p=&APP_ID.:82:&APP_SESSION.::&DEBUG.:82::'
+,p_security_scheme=>wwv_flow_imp.id(89164731569906034)
+);
+wwv_flow_imp_page.create_page_da_event(
+ p_id=>wwv_flow_imp.id(89109526232391089)
+,p_name=>'Edit Report - Dialog Closed'
+,p_event_sequence=>10
+,p_triggering_element_type=>'REGION'
+,p_triggering_region_id=>wwv_flow_imp.id(89106739741391084)
+,p_bind_type=>'bind'
+,p_execution_type=>'IMMEDIATE'
+,p_bind_event_type=>'apexafterclosedialog'
+);
+wwv_flow_imp_page.create_page_da_action(
+ p_id=>wwv_flow_imp.id(89110074025391090)
+,p_event_id=>wwv_flow_imp.id(89109526232391089)
+,p_event_result=>'TRUE'
+,p_action_sequence=>10
+,p_execute_on_page_init=>'N'
+,p_action=>'NATIVE_REFRESH'
+,p_affected_elements_type=>'REGION'
+,p_affected_region_id=>wwv_flow_imp.id(89106739741391084)
+,p_attribute_01=>'N'
+);
+wwv_flow_imp.component_end;
+end;
+/
