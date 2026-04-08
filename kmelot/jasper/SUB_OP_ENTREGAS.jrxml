@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SUB_OP_ENTREGAS" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isFloatColumnFooter="true" isIgnorePagination="true" uuid="f5000001-0001-0001-0001-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KM kmelot"/>
+	<property name="ireport.jasperserver.url" value="http://kmelot.online/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/kmelot/ORDEN_PRODUCCION"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/kmelot/ORDEN_PRODUCCION_files/SUB_OP_ENTREGAS.jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_ID_ORDEN_PROD" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[SELECT c.id_entrega_insumo,
+       c.nro_remision,
+       c.fecha_entrega,
+       c.observacion,
+       c.usuario_registro,
+       d.id_det_entrega,
+       d.cantidad_entregada,
+       m.pro_id_producto_mat,
+       p.descripcion AS nombre_material,
+       u.descripcion || ' (' || u.abreviatura || ')' AS unidad_medida
+FROM cab_entrega_insumo c,
+     det_entrega_insumo d,
+     det_orden_produccion_mat m,
+     producto p,
+     unidad_medida u
+WHERE c.ord_id_orden_prod = $P{P_ID_ORDEN_PROD}
+AND c.estado = 'ACTIVO'
+AND d.ent_id_entrega_insumo = c.id_entrega_insumo
+AND m.id_det_orden_mat = d.det_id_det_orden_mat
+AND p.id_producto = m.pro_id_producto_mat
+AND u.id_unidad_medida = m.uni_id_unidad_medida
+ORDER BY c.fecha_entrega, c.id_entrega_insumo, d.id_det_entrega]]>
+	</queryString>
+	<field name="ID_ENTREGA_INSUMO" class="java.math.BigDecimal"/>
+	<field name="NRO_REMISION" class="java.lang.String"/>
+	<field name="FECHA_ENTREGA" class="java.sql.Timestamp"/>
+	<field name="OBSERVACION" class="java.lang.String"/>
+	<field name="USUARIO_REGISTRO" class="java.lang.String"/>
+	<field name="ID_DET_ENTREGA" class="java.math.BigDecimal"/>
+	<field name="CANTIDAD_ENTREGADA" class="java.math.BigDecimal"/>
+	<field name="PRO_ID_PRODUCTO_MAT" class="java.math.BigDecimal"/>
+	<field name="NOMBRE_MATERIAL" class="java.lang.String"/>
+	<field name="UNIDAD_MEDIDA" class="java.lang.String"/>
+	<variable name="V_COUNT_DET" class="java.lang.Integer" resetType="Group" resetGroup="GRP_ENTREGA" calculation="Count">
+		<variableExpression><![CDATA[$F{ID_DET_ENTREGA}]]></variableExpression>
+	</variable>
+	<variable name="V_COUNT_ENTREGA" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{ID_ENTREGA_INSUMO}]]></variableExpression>
+	</variable>
+	<group name="GRP_ENTREGA">
+		<groupExpression><![CDATA[$F{ID_ENTREGA_INSUMO}]]></groupExpression>
+		<groupHeader>
+			<band height="29" splitType="Stretch">
+				<!-- Cabecera de la entrega -->
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="50" height="13" backcolor="#F0ECF5" uuid="f5100001-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Remision: ]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="50" y="0" width="80" height="13" backcolor="#F0ECF5" uuid="f5100002-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $F{NRO_REMISION}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="130" y="0" width="36" height="13" backcolor="#F0ECF5" uuid="f5100003-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha: ]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yy" isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="166" y="0" width="54" height="13" backcolor="#F0ECF5" uuid="f5100004-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{FECHA_ENTREGA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="220" y="0" width="45" height="13" backcolor="#F0ECF5" uuid="f5100005-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Usuario: ]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="265" y="0" width="100" height="13" backcolor="#F0ECF5" uuid="f5100006-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + ($F{USUARIO_REGISTRO} != null ? $F{USUARIO_REGISTRO} : "")]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="365" y="0" width="35" height="13" backcolor="#F0ECF5" uuid="f5100007-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Obs: ]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="400" y="0" width="155" height="13" backcolor="#F0ECF5" uuid="f5100008-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + ($F{OBSERVACION} != null ? $F{OBSERVACION} : "")]]></textFieldExpression>
+				</textField>
+				<!-- Encabezados columnas detalle -->
+				<staticText>
+					<reportElement mode="Opaque" x="30" y="13" width="20" height="16" backcolor="#E8E8E8" uuid="f5100009-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[#]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="50" y="13" width="35" height="16" backcolor="#E8E8E8" uuid="f510000a-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cod.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="85" y="13" width="230" height="16" backcolor="#E8E8E8" uuid="f510000b-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Material]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="315" y="13" width="120" height="16" backcolor="#E8E8E8" uuid="f510000c-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+					<textElement verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Unidad Medida]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="435" y="13" width="120" height="16" backcolor="#E8E8E8" uuid="f510000d-0001-0001-0001-000000000001"/>
+					<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cant. Entregada ]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="16" backcolor="#E0D6F0" uuid="f5000002-0001-0001-0001-000000000001"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  ENTREGAS DE INSUMOS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="30" y="0" width="20" height="13" uuid="f5200001-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{V_COUNT_DET}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="35" height="13" uuid="f5200002-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRO_ID_PRODUCTO_MAT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="85" y="0" width="230" height="13" uuid="f5200003-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $F{NOMBRE_MATERIAL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="315" y="0" width="120" height="13" uuid="f5200004-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $F{UNIDAD_MEDIDA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+				<reportElement x="435" y="0" width="120" height="13" uuid="f5200005-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CANTIDAD_ENTREGADA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

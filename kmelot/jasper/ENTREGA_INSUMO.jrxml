@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ENTREGA_INSUMO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f6000001-0001-0001-0001-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KM kmelot"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.url" value="http://kmelot.online/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/kmelot/ENTREGA_INSUMO"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/kmelot/ENTREGA_INSUMO_files/main_jrxml"/>
+	<parameter name="P_ID_ENTREGA_INSUMO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_USUARIO" class="java.lang.String"/>
+	<parameter name="P_EMPRESA" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT c.id_entrega_insumo,
+       c.nro_remision,
+       c.fecha_entrega,
+       c.observacion,
+       c.usuario_registro,
+       op.nro_orden,
+       op.id_orden_prod,
+       e.nombre AS nombre_productor,
+       e.numero_documento,
+       td.abreviatura AS tipo_doc,
+       se.direccion,
+       se.telefono1,
+       e.nro_celular,
+       e.correo,
+       d.id_det_entrega,
+       d.cantidad_entregada,
+       m.pro_id_producto_mat,
+       p.descripcion AS nombre_material,
+       u.descripcion || ' (' || u.abreviatura || ')' AS unidad_medida
+FROM cab_entrega_insumo c,
+     cab_orden_produccion op,
+     entidad e,
+     tipo_documento td,
+     sucursal_entidad se,
+     det_entrega_insumo d,
+     det_orden_produccion_mat m,
+     producto p,
+     unidad_medida u
+WHERE c.id_entrega_insumo = $P{P_ID_ENTREGA_INSUMO}
+AND op.id_orden_prod = c.ord_id_orden_prod
+AND e.id_entidad = op.ent_id_entidad_productor
+AND td.id_tipo_documento(+) = e.tip_id_tipo_documento
+AND se.ent_id_entidad(+) = e.id_entidad
+AND se.es_central(+) = 'S'
+AND d.ent_id_entrega_insumo = c.id_entrega_insumo
+AND m.id_det_orden_mat = d.det_id_det_orden_mat
+AND p.id_producto = m.pro_id_producto_mat
+AND u.id_unidad_medida = m.uni_id_unidad_medida
+ORDER BY d.id_det_entrega]]>
+	</queryString>
+	<field name="ID_ENTREGA_INSUMO" class="java.math.BigDecimal"/>
+	<field name="NRO_REMISION" class="java.lang.String"/>
+	<field name="FECHA_ENTREGA" class="java.sql.Timestamp"/>
+	<field name="OBSERVACION" class="java.lang.String"/>
+	<field name="USUARIO_REGISTRO" class="java.lang.String"/>
+	<field name="NRO_ORDEN" class="java.lang.String"/>
+	<field name="ID_ORDEN_PROD" class="java.math.BigDecimal"/>
+	<field name="NOMBRE_PRODUCTOR" class="java.lang.String"/>
+	<field name="NUMERO_DOCUMENTO" class="java.lang.String"/>
+	<field name="TIPO_DOC" class="java.lang.String"/>
+	<field name="DIRECCION" class="java.lang.String"/>
+	<field name="TELEFONO1" class="java.lang.String"/>
+	<field name="NRO_CELULAR" class="java.lang.String"/>
+	<field name="CORREO" class="java.lang.String"/>
+	<field name="ID_DET_ENTREGA" class="java.math.BigDecimal"/>
+	<field name="CANTIDAD_ENTREGADA" class="java.math.BigDecimal"/>
+	<field name="PRO_ID_PRODUCTO_MAT" class="java.math.BigDecimal"/>
+	<field name="NOMBRE_MATERIAL" class="java.lang.String"/>
+	<field name="UNIDAD_MEDIDA" class="java.lang.String"/>
+	<variable name="V_COUNT" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{ID_DET_ENTREGA}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="130" splitType="Stretch">
+			<!-- Empresa -->
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="280" height="22" uuid="f6000002-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_EMPRESA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="453" y="0" width="100" height="11" uuid="f6000003-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Kmelot]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="11" width="50" height="11" uuid="f6000004-0001-0001-0001-000000000001"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Pag.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="511" y="11" width="20" height="11" uuid="f6000005-0001-0001-0001-000000000001"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="531" y="11" width="3" height="11" uuid="f6000006-0001-0001-0001-000000000001"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="534" y="11" width="20" height="11" uuid="f6000007-0001-0001-0001-000000000001"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<!-- Titulo -->
+			<staticText>
+				<reportElement x="140" y="22" width="170" height="13" uuid="f6000008-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOTA DE REMISION]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="315" y="22" width="120" height="13" uuid="f6000009-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NRO_REMISION}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="440" y="22" width="114" height="11" uuid="f600000a-0001-0001-0001-000000000001"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="37" width="552" height="1" uuid="f600000b-0001-0001-0001-000000000001"/>
+			</line>
+			<!-- Fila 1: Fecha entrega + Orden produccion -->
+			<staticText>
+				<reportElement x="2" y="40" width="74" height="12" uuid="f600000c-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha entrega:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="79" y="40" width="70" height="12" uuid="f600000d-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA_ENTREGA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="200" y="40" width="70" height="12" uuid="f600000e-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Orden Prod:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="273" y="40" width="90" height="12" uuid="f600000f-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NRO_ORDEN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="40" width="50" height="12" uuid="f6000010-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="453" y="40" width="100" height="12" uuid="f6000011-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{USUARIO_REGISTRO}]]></textFieldExpression>
+			</textField>
+			<!-- Fila 2: Titulo DATOS DEL PRODUCTOR -->
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="56" width="555" height="14" backcolor="#E0D6F0" uuid="f6000012-0001-0001-0001-000000000001"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  DATOS DEL PRODUCTOR]]></text>
+			</staticText>
+			<!-- Fila 3: Nombre -->
+			<staticText>
+				<reportElement x="2" y="72" width="56" height="12" uuid="f6000013-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="60" y="72" width="300" height="12" uuid="f6000014-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE_PRODUCTOR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="370" y="72" width="56" height="12" uuid="f6000015-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documento:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="429" y="72" width="124" height="12" uuid="f6000016-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{TIPO_DOC} != null ? $F{TIPO_DOC} + ": " : "") + ($F{NUMERO_DOCUMENTO} != null ? $F{NUMERO_DOCUMENTO} : "")]]></textFieldExpression>
+			</textField>
+			<!-- Fila 4: Direccion + Email -->
+			<staticText>
+				<reportElement x="2" y="84" width="56" height="12" uuid="f6000017-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Direccion:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="60" y="84" width="300" height="12" uuid="f6000018-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIRECCION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="370" y="84" width="56" height="12" uuid="f6000019-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="429" y="84" width="124" height="12" uuid="f600001a-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CORREO}]]></textFieldExpression>
+			</textField>
+			<!-- Fila 5: Telefonos -->
+			<staticText>
+				<reportElement x="2" y="96" width="56" height="12" uuid="f600001b-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefono:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="60" y="96" width="120" height="12" uuid="f600001c-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TELEFONO1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="190" y="96" width="40" height="12" uuid="f600001d-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Celular:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="233" y="96" width="120" height="12" uuid="f600001e-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NRO_CELULAR}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="112" width="552" height="1" uuid="f600001f-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineColor="#999797"/>
+				</graphicElement>
+			</line>
+			<!-- Encabezados tabla materiales -->
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="114" width="25" height="16" backcolor="#E8E8E8" uuid="f6000020-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="25" y="114" width="40" height="16" backcolor="#E8E8E8" uuid="f6000021-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cod.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="65" y="114" width="220" height="16" backcolor="#E8E8E8" uuid="f6000022-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Material]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="285" y="114" width="130" height="16" backcolor="#E8E8E8" uuid="f6000023-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Unidad Medida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="415" y="114" width="140" height="16" backcolor="#E8E8E8" uuid="f6000024-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad Entregada ]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="25" height="13" uuid="f6000025-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{V_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="0" width="40" height="13" uuid="f6000026-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRO_ID_PRODUCTO_MAT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="0" width="220" height="13" uuid="f6000027-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $F{NOMBRE_MATERIAL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="285" y="0" width="130" height="13" uuid="f6000028-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $F{UNIDAD_MEDIDA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
+				<reportElement x="415" y="0" width="140" height="13" uuid="f6000029-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CANTIDAD_ENTREGADA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="38" splitType="Stretch">
+			<line>
+				<reportElement x="2" y="11" width="552" height="1" forecolor="#C7C7C7" uuid="f600002a-0001-0001-0001-000000000001"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="90" splitType="Stretch">
+			<!-- Observacion -->
+			<staticText>
+				<reportElement x="2" y="5" width="62" height="12" uuid="f600002b-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observacion:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="67" y="5" width="486" height="12" uuid="f600002c-0001-0001-0001-000000000001">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OBSERVACION}]]></textFieldExpression>
+			</textField>
+			<!-- Lineas de firma -->
+			<line>
+				<reportElement x="30" y="60" width="180" height="1" uuid="f600002d-0001-0001-0001-000000000001"/>
+			</line>
+			<staticText>
+				<reportElement x="30" y="62" width="180" height="12" uuid="f600002e-0001-0001-0001-000000000001"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Entregado por]]></text>
+			</staticText>
+			<line>
+				<reportElement x="340" y="60" width="180" height="1" uuid="f600002f-0001-0001-0001-000000000001"/>
+			</line>
+			<staticText>
+				<reportElement x="340" y="62" width="180" height="12" uuid="f6000030-0001-0001-0001-000000000001"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Recibido por]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

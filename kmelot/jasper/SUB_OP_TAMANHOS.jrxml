@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SUB_OP_TAMANHOS" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isFloatColumnFooter="true" isIgnorePagination="true" uuid="f4000001-0001-0001-0001-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KM kmelot"/>
+	<property name="ireport.jasperserver.url" value="http://kmelot.online/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/kmelot/ORDEN_PRODUCCION"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/kmelot/ORDEN_PRODUCCION_files/SUB_OP_TAMANHOS.jrxml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_ID_ORDEN_PROD" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[SELECT opt.id_ord_prod_tam,
+       rpt.tam_id_tamanho,
+       pt.tamanho AS tamanho_desc,
+       opt.cantidad
+FROM orden_produccion_tamanho opt,
+     receta_produccion_tamanho rpt,
+     producto_tamanho pt
+WHERE opt.ord_id_orden_prod = $P{P_ID_ORDEN_PROD}
+AND rpt.id_tamanho_receta = opt.tam_id_tamanho_receta
+AND pt.id_tamanho = rpt.tam_id_tamanho
+ORDER BY pt.tamanho]]>
+	</queryString>
+	<field name="ID_ORD_PROD_TAM" class="java.math.BigDecimal"/>
+	<field name="TAM_ID_TAMANHO" class="java.math.BigDecimal"/>
+	<field name="TAMANHO_DESC" class="java.lang.String"/>
+	<field name="CANTIDAD" class="java.math.BigDecimal"/>
+	<variable name="V_COUNT" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{ID_ORD_PROD_TAM}]]></variableExpression>
+	</variable>
+	<variable name="V_TOTAL_CANTIDAD" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{CANTIDAD}]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="16" backcolor="#F0E0D6" uuid="f4000002-0001-0001-0001-000000000001"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  TAMANHOS A PRODUCIR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="16" width="25" height="16" backcolor="#E8E8E8" uuid="f4000003-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="25" y="16" width="60" height="16" backcolor="#E8E8E8" uuid="f4000004-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cod.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="85" y="16" width="370" height="16" backcolor="#E8E8E8" uuid="f4000005-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="455" y="16" width="100" height="16" backcolor="#E8E8E8" uuid="f4000006-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="25" height="13" uuid="f4000007-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{V_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="0" width="60" height="13" uuid="f4000008-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TAM_ID_TAMANHO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="85" y="0" width="370" height="13" uuid="f4000009-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $F{TAMANHO_DESC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="455" y="0" width="100" height="13" uuid="f400000a-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.25" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CANTIDAD}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="385" y="0" width="70" height="15" backcolor="#E8E8E8" uuid="f400000b-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL ]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="455" y="0" width="100" height="15" backcolor="#E8E8E8" uuid="f400000c-0001-0001-0001-000000000001"/>
+				<box><pen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{V_TOTAL_CANTIDAD}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>
