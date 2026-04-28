@@ -1,0 +1,301 @@
+prompt --application/shared_components/data_loads/articulos_licitacion
+begin
+--   Manifest
+--     DATA LOAD: articulos licitacion
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.5'
+,p_default_workspace_id=>117171203325035555
+,p_default_application_id=>107
+,p_default_id_offset=>119233525571656138
+,p_default_owner=>'KMELOT'
+);
+wwv_flow_imp_shared.create_data_profile(
+ p_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'articulos licitacion'
+,p_format=>'CSV'
+,p_encoding=>'utf-8'
+,p_csv_enclosed=>'"'
+,p_has_header_row=>true
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143168544521010464)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C001'
+,p_sequence=>10
+,p_is_primary_key=>true
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'ID'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143168879681010465)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C002'
+,p_sequence=>20
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'NUMERO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143169130258010465)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C003'
+,p_sequence=>30
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'PRODUCTO_CODIGO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143169487738010465)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C004'
+,p_sequence=>40
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'PRODUCTO_NOMBRE_CATALOGO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143169741556010465)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C005'
+,p_sequence=>50
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'PRODUCTO_NOMBRE_CONVOCANTE'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143170068976010466)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C006'
+,p_sequence=>60
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'PRECIO_UNITARIO_ESTIMADO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(147046355416040435)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C007'
+,p_sequence=>61
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_selector_type=>'NAME'
+,p_selector=>'PRECIO_UNITARIO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143170380775010466)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C008'
+,p_sequence=>70
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'CANTIDAD_MINIMA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143170667694010466)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C009'
+,p_sequence=>80
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'CANTIDAD'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143170972813010466)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C010'
+,p_sequence=>90
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'MONTO_MINIMO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143171315140010466)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C011'
+,p_sequence=>100
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'MONTO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143171558833010467)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C012'
+,p_sequence=>110
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'C_MONEDA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143171840613010467)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C013'
+,p_sequence=>120
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'MONEDA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143172209642010467)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C014'
+,p_sequence=>130
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'C_UNIDAD_MEDIDA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143172464480010467)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C015'
+,p_sequence=>140
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'UNIDAD_MEDIDA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143172767781010467)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C016'
+,p_sequence=>150
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'C_PRESENTACION'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143173122731010467)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C017'
+,p_sequence=>160
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'PRESENTACION'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143173415957010467)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C018'
+,p_sequence=>170
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'ZONA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143173693963010467)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C019'
+,p_sequence=>180
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'C_CONTRATO_ABIERTO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143174003345010468)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C020'
+,p_sequence=>190
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'CONTRATO_ABIERTO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143174297855010468)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C021'
+,p_sequence=>200
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'ABASTECIMIENTO_SIMULTANEO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143174569758010468)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C022'
+,p_sequence=>210
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'SUB_ITEMS'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143174826052010468)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C023'
+,p_sequence=>220
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'PLANTILLA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(143175136498010468)
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_name=>'C024'
+,p_sequence=>230
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>32767
+,p_selector_type=>'NAME'
+,p_selector=>'ESTADO_IMPUGNACION'
+);
+wwv_flow_imp_shared.create_load_table(
+ p_id=>wwv_flow_imp.id(143175366565010468)
+,p_name=>'articulos licitacion'
+,p_static_id=>'articulos_licitacion'
+,p_target_type=>'COLLECTION'
+,p_collection_name=>'COLL_ARTICULOS_LICITACION'
+,p_data_profile_id=>wwv_flow_imp.id(143168308110010433)
+,p_loading_method=>'REPLACE'
+,p_commit_interval=>200
+,p_error_handling=>'ABORT'
+,p_skip_validation=>'N'
+,p_version_scn=>41738634848531
+);
+wwv_flow_imp.component_end;
+end;
+/

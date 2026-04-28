@@ -1,0 +1,65 @@
+prompt --application/shared_components/user_interface/lovs/lv_dias_semana_nro
+begin
+--   Manifest
+--     LV_DIAS_SEMANA_NRO
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.5'
+,p_default_workspace_id=>117171203325035555
+,p_default_application_id=>107
+,p_default_id_offset=>119233525571656138
+,p_default_owner=>'KMELOT'
+);
+wwv_flow_imp_shared.create_list_of_values(
+ p_id=>wwv_flow_imp.id(253714851149537620)
+,p_lov_name=>'LV_DIAS_SEMANA_NRO'
+,p_lov_query=>'.'||wwv_flow_imp.id(253714851149537620)||'.'
+,p_location=>'STATIC'
+,p_version_scn=>39384296846296
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(253715212391537620)
+,p_lov_disp_sequence=>1
+,p_lov_disp_value=>'LUNES'
+,p_lov_return_value=>'1'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(253715581645537621)
+,p_lov_disp_sequence=>2
+,p_lov_disp_value=>'MARTES'
+,p_lov_return_value=>'2'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(253715957411537621)
+,p_lov_disp_sequence=>3
+,p_lov_disp_value=>'MIERCOLES'
+,p_lov_return_value=>'3'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(253716428517537621)
+,p_lov_disp_sequence=>4
+,p_lov_disp_value=>'JUEVES'
+,p_lov_return_value=>'4'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(253716808477537621)
+,p_lov_disp_sequence=>5
+,p_lov_disp_value=>'VIERNES'
+,p_lov_return_value=>'5'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(253717186103537622)
+,p_lov_disp_sequence=>6
+,p_lov_disp_value=>'SABADO'
+,p_lov_return_value=>'6'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(253717615467537622)
+,p_lov_disp_sequence=>7
+,p_lov_disp_value=>'DOMINGO'
+,p_lov_return_value=>'7'
+);
+wwv_flow_imp.component_end;
+end;
+/

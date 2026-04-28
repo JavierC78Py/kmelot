@@ -1,0 +1,133 @@
+prompt --application/pages/page_00176
+begin
+--   Manifest
+--     PAGE: 00176
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.5'
+,p_default_workspace_id=>117171203325035555
+,p_default_application_id=>107
+,p_default_id_offset=>119233525571656138
+,p_default_owner=>'KMELOT'
+);
+wwv_flow_imp_page.create_page(
+ p_id=>176
+,p_name=>'Tipo logo.- producto'
+,p_alias=>'TIPO-LOGO-PRODUCTO'
+,p_step_title=>'Tipo logo - producto'
+,p_autocomplete_on_off=>'OFF'
+,p_page_template_options=>'#DEFAULT#'
+,p_required_role=>wwv_flow_imp.id(173183663766486752)
+,p_protection_level=>'C'
+,p_page_component_map=>'03'
+);
+wwv_flow_imp_page.create_report_region(
+ p_id=>wwv_flow_imp.id(173175406633442436)
+,p_name=>'Tipo logo.- producto'
+,p_template=>4072358936313175081
+,p_display_sequence=>10
+,p_region_template_options=>'#DEFAULT#:t-Region--noPadding'
+,p_component_template_options=>'#DEFAULT#:t-Report--stretch:t-Report--staticRowColors:t-Report--rowHighlight:t-Report--inline:t-Report--hideNoPagination'
+,p_source_type=>'NATIVE_SQL_REPORT'
+,p_query_type=>'TABLE'
+,p_query_table=>'TIPO_LOGO'
+,p_include_rowid_column=>false
+,p_ajax_enabled=>'Y'
+,p_lazy_loading=>false
+,p_query_row_template=>2538654340625403440
+,p_query_num_rows=>50
+,p_query_options=>'DERIVED_REPORT_COLUMNS'
+,p_query_no_data_found=>'No se encuentran datos.'
+,p_query_num_rows_type=>'NEXT_PREVIOUS_LINKS'
+,p_query_row_count_max=>500
+,p_pagination_display_position=>'BOTTOM_RIGHT'
+,p_csv_output=>'N'
+,p_prn_output=>'N'
+,p_prn_format=>'PDF'
+,p_sort_null=>'L'
+,p_plug_query_strip_html=>'N'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(173175766351442439)
+,p_query_column_id=>1
+,p_column_alias=>'ID_TIPO_LOGO'
+,p_column_display_sequence=>0
+,p_column_link=>'f?p=&APP_ID.:177:&APP_SESSION.::&DEBUG.:RP:P177_ID_TIPO_LOGO:\#ID_TIPO_LOGO#\'
+,p_column_linktext=>'<span role="img" aria-label="Editar" class="fa fa-edit" title="Editar"></span>'
+,p_column_alignment=>'CENTER'
+,p_derived_column=>'N'
+,p_include_in_export=>'N'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(173176176144442440)
+,p_query_column_id=>2
+,p_column_alias=>'DESCRIPCION'
+,p_column_display_sequence=>2
+,p_column_heading=>unistr('Descripci\00F3n')
+,p_default_sort_column_sequence=>1
+,p_disable_sort_column=>'N'
+,p_derived_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(173176593504442440)
+,p_query_column_id=>3
+,p_column_alias=>'ESTADO'
+,p_column_display_sequence=>3
+,p_column_heading=>'Estado'
+,p_column_alignment=>'CENTER'
+,p_default_sort_column_sequence=>1
+,p_disable_sort_column=>'N'
+,p_derived_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(173178421911442442)
+,p_plug_name=>'Breadcrumb'
+,p_region_template_options=>'#DEFAULT#:t-BreadcrumbRegion--useBreadcrumbTitle'
+,p_component_template_options=>'#DEFAULT#'
+,p_plug_template=>2531463326621247859
+,p_plug_display_sequence=>10
+,p_plug_display_point=>'REGION_POSITION_01'
+,p_menu_id=>wwv_flow_imp.id(206180564029405200)
+,p_plug_source_type=>'NATIVE_BREADCRUMB'
+,p_menu_template_id=>4072363345357175094
+);
+wwv_flow_imp_page.create_page_button(
+ p_id=>wwv_flow_imp.id(173177116066442440)
+,p_button_sequence=>10
+,p_button_plug_id=>wwv_flow_imp.id(173175406633442436)
+,p_button_name=>'CREATE'
+,p_button_action=>'REDIRECT_PAGE'
+,p_button_template_options=>'#DEFAULT#'
+,p_button_template_id=>4072362960822175091
+,p_button_is_hot=>'Y'
+,p_button_image_alt=>'Crear'
+,p_button_position=>'EDIT'
+,p_button_redirect_url=>'f?p=&APP_ID.:177:&APP_SESSION.::&DEBUG.:177::'
+,p_security_scheme=>wwv_flow_imp.id(173183323109480667)
+);
+wwv_flow_imp_page.create_page_da_event(
+ p_id=>wwv_flow_imp.id(173177339237442440)
+,p_name=>'Edit Report - Dialog Closed'
+,p_event_sequence=>10
+,p_triggering_element_type=>'REGION'
+,p_triggering_region_id=>wwv_flow_imp.id(173175406633442436)
+,p_bind_type=>'bind'
+,p_execution_type=>'IMMEDIATE'
+,p_bind_event_type=>'apexafterclosedialog'
+);
+wwv_flow_imp_page.create_page_da_action(
+ p_id=>wwv_flow_imp.id(173177877532442441)
+,p_event_id=>wwv_flow_imp.id(173177339237442440)
+,p_event_result=>'TRUE'
+,p_action_sequence=>10
+,p_execute_on_page_init=>'N'
+,p_action=>'NATIVE_REFRESH'
+,p_affected_elements_type=>'REGION'
+,p_affected_region_id=>wwv_flow_imp.id(173175406633442436)
+);
+wwv_flow_imp.component_end;
+end;
+/
